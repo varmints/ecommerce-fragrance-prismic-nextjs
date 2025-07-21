@@ -59,8 +59,8 @@ export default async function RootLayout({
           <NavBar settings={settings} />
           <main className="pt-14 md:pt-16">{children}</main>
           <Footer />
+          <PrismicPreview repositoryName={repositoryName} />
         </body>
-        <PrismicPreview repositoryName={repositoryName} />
       </html>
     </ViewTransitions>
   );
