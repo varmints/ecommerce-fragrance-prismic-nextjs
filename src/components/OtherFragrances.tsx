@@ -32,7 +32,7 @@ export const OtherFragrances = ({ currentFragranceUid, lang }: OtherFragrancesPr
   return (
     <div className="container mx-auto px-4">
       <h2 className="font-display mb-8 text-3xl text-white md:text-4xl">
-        {translations.you_may_also_like}
+        {translations.you_may_also_like || 'You may also like'}
       </h2>
 
       <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
