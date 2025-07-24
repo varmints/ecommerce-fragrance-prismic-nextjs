@@ -1,33 +1,18 @@
 'use client';
 
-import { createClient } from '@/prismicio';
 import { formatPrice } from '@/utils/formatters';
 import { PrismicNextImage } from '@prismicio/next';
 import { PrismicText } from '@prismicio/react';
 import { TransitionLink } from './TransitionLink';
-import { reverseLocaleLookup } from '@/i18n';
 import { Content } from '@prismicio/client';
 import { useTranslations } from '@/hooks/useTranslations';
-import { useEffect, useState } from 'react';
 
 type OtherFragrancesProps = {
-  currentFragranceUid: string;
-  lang: string;
+  fragrances: Content.FragranceDocument[];
 };
 
-export const OtherFragrances = ({ currentFragranceUid, lang }: OtherFragrancesProps) => {
+export function OtherFragrances({ fragrances }: OtherFragrancesProps) {
   const translations = useTranslations();
-  const [otherFragrances, setOtherFragrances] = useState<Content.FragranceDocument[]>([]);
-
-  useEffect(() => {
-    const client = createClient();
-    const prismicLang = reverseLocaleLookup(lang);
-
-    client.getAllByType('fragrance', { lang: prismicLang }).then(allFragrances => {
-      const filtered = allFragrances.filter(fragrance => fragrance.uid !== currentFragranceUid);
-      setOtherFragrances(filtered);
-    });
-  }, [lang, currentFragranceUid]);
 
   return (
     <div className="container mx-auto px-4">
@@ -36,7 +21,7 @@ export const OtherFragrances = ({ currentFragranceUid, lang }: OtherFragrancesPr
       </h2>
 
       <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {otherFragrances.map(fragrance => (
+        {fragrances.map(fragrance => (
           <li key={fragrance.id}>
             <TransitionLink document={fragrance} className="group">
               <div className="relative aspect-square w-full transition-transform duration-500 group-hover:scale-105">
@@ -61,4 +46,4 @@ export const OtherFragrances = ({ currentFragranceUid, lang }: OtherFragrancesPr
       </ul>
     </div>
   );
-};
+}

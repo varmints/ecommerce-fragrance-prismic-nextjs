@@ -28,6 +28,10 @@ export default async function Page({ params }: { params: Promise<Params> }) {
     .getByUID('fragrance', uid, { lang: prismicLang })
     .catch(() => notFound());
 
+  // Fetch other fragrances on the server
+  const allFragrances = await client.getAllByType('fragrance', { lang: prismicLang });
+  const otherFragrances = allFragrances.filter(fragrance => fragrance.uid !== uid);
+
   return (
     <Bounded className="py-10">
       <div className="grid grid-cols-1 items-center gap-10 pb-10 lg:grid-cols-2">
@@ -81,7 +85,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
         </div>
       </div>
 
-      <OtherFragrances currentFragranceUid={uid} lang={lang} />
+      <OtherFragrances fragrances={otherFragrances} />
     </Bounded>
   );
 }
