@@ -1,22 +1,17 @@
-import { FC } from "react";
-import { Content, isFilled } from "@prismicio/client";
-import {
-  PrismicRichText,
-  PrismicText,
-  SliceComponentProps,
-} from "@prismicio/react";
-import { PrismicNextImage } from "@prismicio/next";
-import { Bounded } from "@/components/Bounded";
-import { FadeIn } from "@/components/FadeIn";
-import { createClient } from "@/prismicio";
-import { formatPrice } from "@/utils/formatters";
-import { ButtonLink } from "@/components/ButtonLink";
+import { FC } from 'react';
+import { Content, isFilled } from '@prismicio/client';
+import { PrismicRichText, PrismicText, SliceComponentProps } from '@prismicio/react';
+import { PrismicNextImage } from '@prismicio/next';
+import { Bounded } from '@/components/Bounded';
+import { FadeIn } from '@/components/FadeIn';
+import { createClient } from '@/prismicio';
+import { formatPrice } from '@/utils/formatters';
+import { ButtonLink } from '@/components/ButtonLink';
 
 /**
  * Props for `ProductFeature`.
  */
-export type ProductFeatureProps =
-  SliceComponentProps<Content.ProductFeatureSlice>;
+export type ProductFeatureProps = SliceComponentProps<Content.ProductFeatureSlice>;
 
 /**
  * Component for "ProductFeature" Slices.
@@ -24,9 +19,7 @@ export type ProductFeatureProps =
 const ProductFeature: FC<ProductFeatureProps> = async ({ slice }) => {
   const client = createClient();
   const fragrance = isFilled.contentRelationship(slice.primary.fragrance)
-    ? await client.getByID<Content.FragranceDocument>(
-        slice.primary.fragrance.id,
-      )
+    ? await client.getByID<Content.FragranceDocument>(slice.primary.fragrance.id)
     : null;
 
   const formattedPrice = formatPrice(fragrance?.data.price);
@@ -43,10 +36,7 @@ const ProductFeature: FC<ProductFeatureProps> = async ({ slice }) => {
           vars={{ duration: 1 }}
           start="top 70%"
         >
-          <PrismicNextImage
-            field={slice.primary.image}
-            className="h-auto w-full object-cover"
-          />
+          <PrismicNextImage field={slice.primary.image} className="h-auto w-full object-cover" />
         </FadeIn>
 
         <FadeIn className="translate-y-16 space-y-6 self-start bg-white/10 p-10 opacity-0 lg:col-start-3 lg:row-start-1">
@@ -72,18 +62,11 @@ const ProductFeature: FC<ProductFeatureProps> = async ({ slice }) => {
           <div className="flex justify-between p-10 pt-4">
             <div className="space-y-1">
               <h3 className="font-display text-4xl">
-                <PrismicText
-                  field={fragrance?.data.title}
-                  fallback="Fragrance"
-                />
+                <PrismicText field={fragrance?.data.title} fallback="Fragrance" />
               </h3>
 
               <p className="mt-2 text-gray-400">Eau de Parfum</p>
-              <ButtonLink
-                document={fragrance}
-                variant="Secondary"
-                className="mt-6"
-              >
+              <ButtonLink document={fragrance} variant="Secondary" className="mt-6">
                 Shop Now
               </ButtonLink>
             </div>

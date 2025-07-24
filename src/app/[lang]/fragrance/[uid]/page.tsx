@@ -1,22 +1,31 @@
-import { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { asImageSrc, asText } from "@prismicio/client";
-import { PrismicRichText, PrismicText } from "@prismicio/react";
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { asImageSrc, asText } from '@prismicio/client';
+import { PrismicRichText, PrismicText } from '@prismicio/react';
 
-import { createClient } from "@/prismicio";
-import { Bounded } from "@/components/Bounded";
-import { PrismicNextImage } from "@prismicio/next";
-import { FragranceAttributes } from "@/components/FragranceAttributes";
-import { formatPrice } from "@/utils/formatters";
-import { HiStar } from "react-icons/hi2";
-import { OtherFragrances } from "@/components/OtherFragrances";
+import { createClient } from '@/prismicio';
+import { Bounded } from '@/components/Bounded';
+import { PrismicNextImage } from '@prismicio/next';
+import { FragranceAttributes } from '@/components/FragranceAttributes';
+import { formatPrice } from '@/utils/formatters';
+import { HiStar } from 'react-icons/hi2';
+import { OtherFragrances } from '@/components/OtherFragrances';
+import { LOCALES, reverseLocaleLookup } from '@/i18n';
 
-type Params = { uid: string };
+type Params = { uid: string; lang: string };
 
 export default async function Page({ params }: { params: Promise<Params> }) {
-  const { uid } = await params;
+  const { uid, lang } = await params;
   const client = createClient();
-  const page = await client.getByUID("fragrance", uid).catch(() => notFound());
+  const prismicLang = reverseLocaleLookup(lang);
+
+  if (!prismicLang) {
+    notFound();
+  }
+
+  const page = await client
+    .getByUID('fragrance', uid, { lang: prismicLang })
+    .catch(() => notFound());
 
   return (
     <Bounded className="py-10">
@@ -49,13 +58,8 @@ export default async function Page({ params }: { params: Promise<Params> }) {
 
             <PrismicRichText field={page.data.description} />
 
-            <FragranceAttributes
-              mood={page.data.mood}
-              scentProfile={page.data.scent_profile}
-            />
-            <p className="mt-10 text-3xl font-light">
-              {formatPrice(page.data.price)}
-            </p>
+            <FragranceAttributes mood={page.data.mood} scentProfile={page.data.scent_profile} />
+            <p className="mt-10 text-3xl font-light">{formatPrice(page.data.price)}</p>
 
             <button className="w-full bg-white py-3 font-medium text-black uppercase transition duration-200 hover:bg-neutral-200">
               Add to Bag
@@ -78,33 +82,37 @@ export default async function Page({ params }: { params: Promise<Params> }) {
         </div>
       </div>
 
-      <OtherFragrances currentFragranceUid={uid} />
+      <OtherFragrances currentFragranceUid={uid} lang={lang} />
     </Bounded>
   );
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<Params>;
-}): Promise<Metadata> {
-  const { uid } = await params;
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+  const { uid, lang } = await params;
   const client = createClient();
-  const page = await client.getByUID("fragrance", uid).catch(() => notFound());
-  const settings = await client.getSingle("settings");
+  const prismicLang = reverseLocaleLookup(lang);
+
+  if (!prismicLang) {
+    notFound();
+  }
+
+  const page = await client
+    .getByUID('fragrance', uid, { lang: prismicLang })
+    .catch(() => notFound());
+  const settings = await client.getSingle('settings', { lang: prismicLang });
 
   return {
-    title: asText(page.data.title) + " | " + settings.data.site_title,
+    title: asText(page.data.title) + ' | ' + settings.data.site_title,
     description: `Discover ${asText(page.data.title)}, the newest fragrance from Côte Royale Paris.`,
     openGraph: {
-      images: [{ url: asImageSrc(page.data.meta_image) ?? "" }],
+      images: [{ url: asImageSrc(page.data.meta_image) ?? '' }],
     },
   };
 }
 
 export async function generateStaticParams() {
   const client = createClient();
-  const pages = await client.getAllByType("fragrance");
+  const pages = await client.getAllByType('fragrance', { lang: '*' });
 
-  return pages.map((page) => ({ uid: page.uid }));
+  return pages.map(page => ({ uid: page.uid, lang: LOCALES[page.lang] }));
 }

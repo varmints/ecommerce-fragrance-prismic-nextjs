@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
-import Image from "next/image";
-import { TransitionLink } from "@/components/TransitionLink";
+import { ReactNode } from 'react';
+import Image from 'next/image';
+import { TransitionLink } from '@/components/TransitionLink';
 
 export const Footer = () => {
   return (
@@ -69,10 +69,7 @@ type NavGroupProps = {
 
 const NavGroup = ({ title, children }: NavGroupProps) => (
   <nav aria-labelledby={`${title.toLowerCase()}-heading`}>
-    <h3
-      id={`${title.toLowerCase()}-heading`}
-      className="mb-6 text-xl font-medium"
-    >
+    <h3 id={`${title.toLowerCase()}-heading`} className="mb-6 text-xl font-medium">
       {title}
     </h3>
     <ul className="space-y-4" role="list">

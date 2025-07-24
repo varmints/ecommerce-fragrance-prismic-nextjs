@@ -1,5 +1,6 @@
-import { asLink, LinkField, PrismicDocument } from "@prismicio/client";
-import { Link } from "next-view-transitions";
+import { asLink, LinkField, PrismicDocument } from '@prismicio/client';
+import { Link } from 'next-view-transitions';
+import { linkResolver } from '@/prismicio';
 
 export type TransitionLinkProps = {
   children?: React.ReactNode;
@@ -21,20 +22,15 @@ export const TransitionLink = ({
   onClick,
   tabIndex,
 }: TransitionLinkProps) => {
-  const url = href ?? asLink(field ?? doc);
+  const url = href ?? asLink(field ?? doc, { linkResolver });
 
   if (!url) {
-    console.warn("TransitionLink: No URL Found");
+    console.warn('TransitionLink: No URL Found');
     return null;
   }
 
   return (
-    <Link
-      href={url}
-      className={className}
-      onClick={onClick}
-      tabIndex={tabIndex}
-    >
+    <Link href={url} className={className} onClick={onClick} tabIndex={tabIndex}>
       {field?.text ?? children}
     </Link>
   );

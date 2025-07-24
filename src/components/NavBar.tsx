@@ -1,26 +1,21 @@
-"use client";
+'use client';
 
-import { Content } from "@prismicio/client";
+import { Content } from '@prismicio/client';
 
-import clsx from "clsx";
-import Image from "next/image";
-import { useState } from "react";
-import {
-  HiBars3,
-  HiMagnifyingGlass,
-  HiShoppingBag,
-  HiUser,
-  HiXMark,
-} from "react-icons/hi2";
-import { TransitionLink } from "@/components/TransitionLink";
+import clsx from 'clsx';
+import Image from 'next/image';
+import { useState } from 'react';
+import { HiBars3, HiMagnifyingGlass, HiShoppingBag, HiUser, HiXMark } from 'react-icons/hi2';
+import { TransitionLink } from '@/components/TransitionLink';
+import { LanguageSwitcher, type LanguageSwitcherProps } from '@/components/LanguageSwitcher';
 
 type NavIconsProps = {
   className?: string;
   tabIndex?: number;
 };
 
-const NavIcons = ({ className = "", tabIndex }: NavIconsProps) => (
-  <div className={clsx("flex items-center gap-8", className)}>
+const NavIcons = ({ className = '', tabIndex }: NavIconsProps) => (
+  <div className={clsx('flex items-center gap-8', className)}>
     <a href="#" className="text-white" aria-label="Search" tabIndex={tabIndex}>
       <HiMagnifyingGlass size={24} />
     </a>
@@ -35,9 +30,10 @@ const NavIcons = ({ className = "", tabIndex }: NavIconsProps) => (
 
 type NavBarProps = {
   settings: Content.SettingsDocument;
+  locales: LanguageSwitcherProps['locales'];
 };
 
-export const NavBar = ({ settings }: NavBarProps) => {
+export const NavBar = ({ settings, locales }: NavBarProps) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
@@ -57,7 +53,7 @@ export const NavBar = ({ settings }: NavBarProps) => {
           <div className="absolute left-1/2 -translate-x-1/2 transform">
             <TransitionLink href="/">
               <Image
-                src="/logo.svg"
+                src="./logo.svg"
                 alt="Côte Royale Paris"
                 width={180}
                 height={30}
@@ -68,16 +64,17 @@ export const NavBar = ({ settings }: NavBarProps) => {
 
           <div className="flex">
             <NavIcons className="hidden md:flex" />
+            <LanguageSwitcher locales={locales} className="ml-8" />
           </div>
         </div>
       </div>
 
       <div
         className={clsx(
-          "nav-drawer-blur fixed inset-0 z-40 bg-black/40 opacity-0 transition-all duration-500",
+          'nav-drawer-blur fixed inset-0 z-40 bg-black/40 opacity-0 transition-all duration-500',
           isDrawerOpen
-            ? "pointer-events-auto opacity-100 backdrop-blur-xs"
-            : "pointer-events-none backdrop-blur-none",
+            ? 'pointer-events-auto opacity-100 backdrop-blur-xs'
+            : 'pointer-events-none backdrop-blur-none'
         )}
         onClick={toggleDrawer}
         aria-hidden="true"
@@ -85,8 +82,8 @@ export const NavBar = ({ settings }: NavBarProps) => {
 
       <div
         className={clsx(
-          "nav-drawer fixed top-0 left-0 z-50 h-full w-72 bg-neutral-900 p-6 transition-transform duration-500",
-          isDrawerOpen ? "translate-x-0" : "-translate-x-full",
+          'nav-drawer fixed top-0 left-0 z-50 h-full w-72 bg-neutral-900 p-6 transition-transform duration-500',
+          isDrawerOpen ? 'translate-x-0' : '-translate-x-full'
         )}
         role="dialog"
         aria-modal={isDrawerOpen}
@@ -103,7 +100,7 @@ export const NavBar = ({ settings }: NavBarProps) => {
         </div>
 
         <nav className="space-y-4" aria-label="Main Navigation">
-          {settings.data.navigation_link.map((link) => (
+          {settings.data.navigation_link.map(link => (
             <TransitionLink
               field={link}
               onClick={() => setIsDrawerOpen(false)}
@@ -113,10 +110,7 @@ export const NavBar = ({ settings }: NavBarProps) => {
             />
           ))}
           <div className="pt-4 md:hidden">
-            <NavIcons
-              className="justify-around"
-              tabIndex={isDrawerOpen ? 0 : -1}
-            />
+            <NavIcons className="justify-around" tabIndex={isDrawerOpen ? 0 : -1} />
           </div>
         </nav>
       </div>

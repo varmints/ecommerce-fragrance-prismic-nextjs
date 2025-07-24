@@ -1,16 +1,15 @@
-import { FC } from "react";
-import { Content, isFilled } from "@prismicio/client";
-import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
+import { FC } from 'react';
+import { Content, isFilled } from '@prismicio/client';
+import { PrismicRichText, SliceComponentProps } from '@prismicio/react';
 
-import { Bounded } from "@/components/Bounded";
-import { RevealText } from "@/components/RevealText";
-import { FragranceDisplay } from "./FragranceDisplay";
+import { Bounded } from '@/components/Bounded';
+import { RevealText } from '@/components/RevealText';
+import { FragranceDisplay } from './FragranceDisplay';
 
 /**
  * Props for `FragranceList`.
  */
-export type FragranceListProps =
-  SliceComponentProps<Content.FragranceListSlice>;
+export type FragranceListProps = SliceComponentProps<Content.FragranceListSlice>;
 
 /**
  * Component for "FragranceList" Slices.
@@ -23,9 +22,7 @@ const FragranceList: FC<FragranceListProps> = ({ slice }) => {
       className="space-y-8 bg-black py-16 text-center text-white md:py-24"
     >
       <div className="mx-auto space-y-8">
-        <p className="text-sm font-light tracking-[0.2em] uppercase">
-          {slice.primary.eyebrow}
-        </p>
+        <p className="text-sm font-light tracking-[0.2em] uppercase">{slice.primary.eyebrow}</p>
         <RevealText
           field={slice.primary.heading}
           as="h2"
@@ -41,14 +38,9 @@ const FragranceList: FC<FragranceListProps> = ({ slice }) => {
         </div>
 
         <div className="mt-12 grid grid-cols-1 gap-12">
-          {slice.primary.fragrances.map((item) => {
+          {slice.primary.fragrances.map(item => {
             if (isFilled.contentRelationship(item.fragrance)) {
-              return (
-                <FragranceDisplay
-                  key={item.fragrance.id}
-                  id={item.fragrance.id}
-                />
-              );
+              return <FragranceDisplay key={item.fragrance.id} id={item.fragrance.id} />;
             }
           })}
         </div>

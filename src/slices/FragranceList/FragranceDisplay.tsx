@@ -1,11 +1,11 @@
-import { ButtonLink } from "@/components/ButtonLink";
-import { FadeIn } from "@/components/FadeIn";
-import { FragranceAttributes } from "@/components/FragranceAttributes";
-import { createClient } from "@/prismicio";
-import { Content } from "@prismicio/client";
-import { PrismicNextImage } from "@prismicio/next";
-import { PrismicRichText, PrismicText } from "@prismicio/react";
-import { HiPlus } from "react-icons/hi2";
+import { ButtonLink } from '@/components/ButtonLink';
+import { FadeIn } from '@/components/FadeIn';
+import { FragranceAttributes } from '@/components/FragranceAttributes';
+import { createClient } from '@/prismicio';
+import { Content } from '@prismicio/client';
+import { PrismicNextImage } from '@prismicio/next';
+import { PrismicRichText, PrismicText } from '@prismicio/react';
+import { HiPlus } from 'react-icons/hi2';
 
 type FragranceDisplayProps = {
   id: string;
@@ -41,9 +41,7 @@ export const FragranceDisplay = async ({ id }: FragranceDisplayProps) => {
           <PrismicText field={fragrance.data.title} />
         </h3>
 
-        <p className="mb-8 text-base font-semibold text-gray-300">
-          Eau de Parfum
-        </p>
+        <p className="mb-8 text-base font-semibold text-gray-300">Eau de Parfum</p>
 
         <div className="mb-10 max-w-md text-lg text-gray-300">
           <PrismicRichText field={fragrance.data.description} />
