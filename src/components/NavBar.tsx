@@ -64,7 +64,7 @@ export const NavBar = ({ settings, locales }: NavBarProps) => {
 
           <div className="flex">
             <NavIcons className="hidden md:flex" />
-            <LanguageSwitcher locales={locales} className="ml-8" />
+            <LanguageSwitcher locales={locales} className="md:ml-8" />
           </div>
         </div>
       </div>
