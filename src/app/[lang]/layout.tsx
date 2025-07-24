@@ -10,6 +10,7 @@ import { ViewTransitions } from 'next-view-transitions';
 import { getLocales } from '@/utils/getLocales';
 import { reverseLocaleLookup } from '@/i18n';
 
+import { TranslationsProvider } from '@/components/TranslationsProvider';
 import { NavBar } from '@/components/NavBar';
 import { Footer } from '@/components/Footer';
 import '../globals.css';
@@ -49,9 +50,6 @@ export async function generateMetadata({
     },
   };
 }
-
-import { TranslationsProvider } from '@/components/TranslationsProvider';
-import { Content } from '@prismicio/client';
 
 export default async function RootLayout({
   children,
