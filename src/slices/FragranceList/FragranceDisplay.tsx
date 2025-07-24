@@ -9,11 +9,14 @@ import { HiPlus } from 'react-icons/hi2';
 
 type FragranceDisplayProps = {
   id: string;
+  lang: string;
 };
 
-export const FragranceDisplay = async ({ id }: FragranceDisplayProps) => {
+export const FragranceDisplay = async ({ id, lang }: FragranceDisplayProps) => {
   const client = createClient();
-  const fragrance = await client.getByID<Content.FragranceDocument>(id);
+  console.log('Fetching fragrance with ID:', id, 'and lang:', lang);
+  const fragrance = await client.getByID<Content.FragranceDocument>(id, { lang });
+  console.log('Fetched fragrance:', fragrance);
 
   return (
     <FadeIn

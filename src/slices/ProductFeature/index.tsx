@@ -19,9 +19,10 @@ export type ProductFeatureProps = SliceComponentProps<Content.ProductFeatureSlic
 const ProductFeature: FC<ProductFeatureProps> = async ({ slice }) => {
   const client = createClient();
   const fragrance = isFilled.contentRelationship(slice.primary.fragrance)
-    ? await client.getByID<Content.FragranceDocument>(slice.primary.fragrance.id)
+    ? await client.getByID<Content.FragranceDocument>(slice.primary.fragrance.id, {
+        lang: slice.primary.fragrance.lang,
+      })
     : null;
-
   const formattedPrice = formatPrice(fragrance?.data.price);
 
   return (

@@ -40,7 +40,13 @@ const FragranceList: FC<FragranceListProps> = ({ slice }) => {
         <div className="mt-12 grid grid-cols-1 gap-12">
           {slice.primary.fragrances.map(item => {
             if (isFilled.contentRelationship(item.fragrance)) {
-              return <FragranceDisplay key={item.fragrance.id} id={item.fragrance.id} />;
+              return (
+                <FragranceDisplay
+                  key={item.fragrance.id}
+                  id={item.fragrance.id}
+                  lang={item.fragrance.lang}
+                />
+              );
             }
           })}
         </div>
