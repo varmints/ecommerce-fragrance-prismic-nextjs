@@ -1,5 +1,6 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import { Content } from '@prismicio/client';
 
 import clsx from 'clsx';
@@ -35,8 +36,8 @@ type NavBarProps = {
 
 export const NavBar = ({ settings, locales }: NavBarProps) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
+  const { lang } = useParams();
 
   return (
     <header>
@@ -51,7 +52,7 @@ export const NavBar = ({ settings, locales }: NavBarProps) => {
           </button>
 
           <div className="absolute left-1/2 -translate-x-1/2 transform">
-            <TransitionLink href="/">
+            <TransitionLink href={`/${lang}`}>
               <Image
                 src="/logo.svg"
                 alt="Côte Royale Paris"

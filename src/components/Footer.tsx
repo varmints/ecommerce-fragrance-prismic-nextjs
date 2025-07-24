@@ -4,9 +4,11 @@ import { ReactNode } from 'react';
 import Image from 'next/image';
 import { TransitionLink } from '@/components/TransitionLink';
 import { useTranslations } from '@/hooks/useTranslations';
+import { useParams } from 'next/navigation';
 
 export const Footer = () => {
   const translations = useTranslations();
+  const { lang } = useParams();
 
   return (
     <footer aria-labelledby="footer-heading" className="bg-black py-16">
@@ -16,9 +18,9 @@ export const Footer = () => {
       <div className="container mx-auto px-6">
         <div className="grid gap-10 md:grid-cols-3">
           <NavGroup title={translations?.shop || 'Shop'}>
-            <NavLink href="/fragrance/terra">Terra</NavLink>
-            <NavLink href="/fragrance/igni">Igni</NavLink>
-            <NavLink href="/fragrance/aqua">Aqua</NavLink>
+            <NavLink href={`/${lang}/fragrance/terra`}>Terra</NavLink>
+            <NavLink href={`/${lang}/fragrance/igni`}>Igni</NavLink>
+            <NavLink href={`/${lang}/fragrance/aqua`}>Aqua</NavLink>
           </NavGroup>
 
           <NavGroup title={translations?.about || 'About'}>
@@ -40,7 +42,7 @@ export const Footer = () => {
             © {new Date().getFullYear()} Côte Royale Inc. All rights reserved
           </p>
           <TransitionLink
-            href="/"
+            href={`/${lang}`}
             aria-label="Côte Royale Home"
             className="order-first md:order-none"
           >
