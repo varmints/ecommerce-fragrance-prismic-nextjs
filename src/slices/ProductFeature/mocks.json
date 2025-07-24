@@ -49,12 +49,17 @@
 				"thumbnails": {}
 			},
 			"fragrance": {
-				"__TYPE__": "LinkContent",
 				"key": "1403dfcd-a8f7-4bba-be48-cf8bb83cb34b",
+				"__TYPE__": "LinkContent",
 				"value": {
 					"__TYPE__": "DocumentLink",
 					"id": "mock_document_id"
 				}
+			},
+			"button": {
+				"__TYPE__": "FieldContent",
+				"value": "rush",
+				"type": "Text"
 			}
 		},
 		"items": []

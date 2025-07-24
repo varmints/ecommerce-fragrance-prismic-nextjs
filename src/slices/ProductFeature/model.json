@@ -48,6 +48,13 @@
               "fragrance"
             ]
           }
+        },
+        "button": {
+          "type": "Text",
+          "config": {
+            "label": "Button",
+            "placeholder": ""
+          }
         }
       },
       "items": {}

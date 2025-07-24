@@ -68,7 +68,7 @@ const ProductFeature: FC<ProductFeatureProps> = async ({ slice }) => {
 
               <p className="mt-2 text-gray-400">Eau de Parfum</p>
               <ButtonLink document={fragrance} variant="Secondary" className="mt-6">
-                Shop Now
+                {slice.primary.button || 'Shop Now'}
               </ButtonLink>
             </div>
             <p className="mt-4 text-gray-100" aria-label="Product price">
