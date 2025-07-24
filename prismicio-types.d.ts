@@ -341,6 +341,28 @@ interface TranslationsDocumentData {
   you_may_also_like: prismic.KeyTextField;
 
   /**
+   * Features field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.features
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  features: prismic.KeyTextField;
+
+  /**
+   * Shop field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.shop
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  shop: prismic.KeyTextField;
+
+  /**
    * About field in *Translations*
    *
    * - **Field Type**: Text
@@ -350,6 +372,39 @@ interface TranslationsDocumentData {
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
   about: prismic.KeyTextField;
+
+  /**
+   * Social field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.social
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  social: prismic.KeyTextField;
+
+  /**
+   * Terms and Conditions field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.terms_and_conditions
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  terms_and_conditions: prismic.KeyTextField;
+
+  /**
+   * Privacy Policy field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.privacy_policy
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  privacy_policy: prismic.KeyTextField;
 }
 
 /**

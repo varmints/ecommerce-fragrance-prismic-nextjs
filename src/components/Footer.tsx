@@ -1,8 +1,13 @@
+'use client';
+
 import { ReactNode } from 'react';
 import Image from 'next/image';
 import { TransitionLink } from '@/components/TransitionLink';
+import { useTranslations } from '@/hooks/useTranslations';
 
 export const Footer = () => {
+  const translations = useTranslations();
+
   return (
     <footer aria-labelledby="footer-heading" className="bg-black py-16">
       <h2 id="footer-heading" className="sr-only">
@@ -10,19 +15,19 @@ export const Footer = () => {
       </h2>
       <div className="container mx-auto px-6">
         <div className="grid gap-10 md:grid-cols-3">
-          <NavGroup title="Shop">
+          <NavGroup title={translations?.shop || 'Shop'}>
             <NavLink href="/fragrance/terra">Terra</NavLink>
             <NavLink href="/fragrance/igni">Igni</NavLink>
             <NavLink href="/fragrance/aqua">Aqua</NavLink>
           </NavGroup>
 
-          <NavGroup title="About">
+          <NavGroup title={translations?.about || 'About'}>
             <NavLink href="#">Science</NavLink>
             <NavLink href="#">Our Story</NavLink>
             <NavLink href="#">Côte Royale</NavLink>
           </NavGroup>
 
-          <NavGroup title="Social">
+          <NavGroup title={translations?.social || 'Social'}>
             <NavLink href="#">Instagram</NavLink>
             <NavLink href="#">X (Twitter)</NavLink>
             <NavLink href="#">Facebook</NavLink>
@@ -47,12 +52,12 @@ export const Footer = () => {
           >
             <li>
               <a href="#" className="hover:text-white">
-                Terms &amp; conditions
+                {translations?.terms_and_conditions || 'Terms & conditions'}
               </a>
             </li>
             <li>
               <a href="#" className="hover:text-white">
-                Privacy Policy
+                {translations?.privacy_policy || 'Privacy Policy'}
               </a>
             </li>
           </ul>

@@ -21,9 +21,7 @@ export const FragranceDisplay = async ({
   addToBagLabel,
 }: FragranceDisplayProps) => {
   const client = createClient();
-  console.log('Fetching fragrance with ID:', id, 'and lang:', lang);
   const fragrance = await client.getByID<Content.FragranceDocument>(id, { lang });
-  console.log('Fetched fragrance:', fragrance);
 
   return (
     <FadeIn

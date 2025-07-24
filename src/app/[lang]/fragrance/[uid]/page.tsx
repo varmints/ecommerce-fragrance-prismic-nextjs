@@ -37,7 +37,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
             width={600}
             height={600}
             priority
-            className="absolute top-[90%] -scale-y-100 [mask-image:linear-gradient(to_bottom,rgba(0,0,0,0)_70%,rgba(0,0,0,.15)_100%)]"
+            className="pointer-events-none absolute top-[90%] -scale-y-100 [mask-image:linear-gradient(to_bottom,rgba(0,0,0,0)_70%,rgba(0,0,0,.15)_100%)]"
           />
           <PrismicNextImage
             field={page.data.bottle_image}
@@ -115,4 +115,3 @@ export async function generateStaticParams() {
 
   return pages.map(page => ({ uid: page.uid, lang: LOCALES[page.lang] }));
 }
-

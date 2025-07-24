@@ -20,10 +20,45 @@
           "placeholder": ""
         }
       },
+      "features": {
+        "type": "Text",
+        "config": {
+          "label": "Features",
+          "placeholder": ""
+        }
+      },
+      "shop": {
+        "type": "Text",
+        "config": {
+          "label": "Shop",
+          "placeholder": ""
+        }
+      },
       "about": {
         "type": "Text",
         "config": {
           "label": "About",
+          "placeholder": ""
+        }
+      },
+      "social": {
+        "type": "Text",
+        "config": {
+          "label": "Social",
+          "placeholder": ""
+        }
+      },
+      "terms_and_conditions": {
+        "type": "Text",
+        "config": {
+          "label": "Terms and Conditions",
+          "placeholder": ""
+        }
+      },
+      "privacy_policy": {
+        "type": "Text",
+        "config": {
+          "label": "Privacy Policy",
           "placeholder": ""
         }
       }
