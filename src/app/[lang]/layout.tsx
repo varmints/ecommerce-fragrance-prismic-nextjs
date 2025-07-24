@@ -50,6 +50,9 @@ export async function generateMetadata({
   };
 }
 
+import { TranslationsProvider } from '@/components/TranslationsProvider';
+import { Content } from '@prismicio/client';
+
 export default async function RootLayout({
   children,
   params,
@@ -62,20 +65,29 @@ export default async function RootLayout({
   const prismicLang = reverseLocaleLookup(lang);
 
   if (!prismicLang) {
-    // This should not happen if middleware is configured correctly
     throw new Error(`Could not find Prismic locale for: ${lang}`);
   }
 
-  const settings = await client.getSingle('settings', { lang: prismicLang });
-  const locales = await getLocales(client, prismicLang);
+  const [settings, locales, translationsDoc] = await Promise.all([
+    client.getSingle('settings', { lang: prismicLang }),
+    getLocales(client, prismicLang),
+    client.getSingle('translations', { lang: prismicLang }).catch(error => {
+      console.error('Failed to fetch translations:', error);
+      return null; // Gracefully handle error so Promise.all doesn't fail
+    }),
+  ]);
+
+  const translations = translationsDoc ? translationsDoc.data : null;
 
   return (
     <ViewTransitions>
       <html lang={lang} className={`${raleway.variable} ${gambarino.variable} antialiased`}>
         <body className="bg-neutral-900 text-white">
-          <NavBar settings={settings} locales={locales} />
-          <main className="pt-14 md:pt-16">{children}</main>
-          <Footer />
+          <TranslationsProvider value={translations}>
+            <NavBar settings={settings} locales={locales} />
+            <main className="pt-14 md:pt-16">{children}</main>
+            <Footer />
+          </TranslationsProvider>
           <PrismicPreview repositoryName={repositoryName} />
         </body>
       </html>

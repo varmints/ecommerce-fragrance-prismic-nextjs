@@ -11,6 +11,7 @@ import { formatPrice } from '@/utils/formatters';
 import { HiStar } from 'react-icons/hi2';
 import { OtherFragrances } from '@/components/OtherFragrances';
 import { LOCALES, reverseLocaleLookup } from '@/i18n';
+import { AddToCartButton } from '@/components/AddToCartButton';
 
 type Params = { uid: string; lang: string };
 
@@ -61,9 +62,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
             <FragranceAttributes mood={page.data.mood} scentProfile={page.data.scent_profile} />
             <p className="mt-10 text-3xl font-light">{formatPrice(page.data.price)}</p>
 
-            <button className="w-full bg-white py-3 font-medium text-black uppercase transition duration-200 hover:bg-neutral-200">
-              Add to Bag
-            </button>
+            <AddToCartButton />
 
             <div className="flex items-center gap-4 border-t border-neutral-700 pt-6">
               <a href="#" className="hover:text-neutral-300">
@@ -116,3 +115,4 @@ export async function generateStaticParams() {
 
   return pages.map(page => ({ uid: page.uid, lang: LOCALES[page.lang] }));
 }
+
