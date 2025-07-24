@@ -10,9 +10,16 @@ import { HiPlus } from 'react-icons/hi2';
 type FragranceDisplayProps = {
   id: string;
   lang: string;
+  buttonLabel: string | null;
+  addToBagLabel: string | null;
 };
 
-export const FragranceDisplay = async ({ id, lang }: FragranceDisplayProps) => {
+export const FragranceDisplay = async ({
+  id,
+  lang,
+  buttonLabel,
+  addToBagLabel,
+}: FragranceDisplayProps) => {
   const client = createClient();
   console.log('Fetching fragrance with ID:', id, 'and lang:', lang);
   const fragrance = await client.getByID<Content.FragranceDocument>(id, { lang });
@@ -58,11 +65,11 @@ export const FragranceDisplay = async ({ id, lang }: FragranceDisplayProps) => {
 
         <div className="flex flex-wrap gap-4">
           <ButtonLink document={fragrance} variant="Secondary">
-            Discover
+            {buttonLabel || 'Discover'}
           </ButtonLink>
 
           <ButtonLink href="#" variant="Primary">
-            <HiPlus className="mr-2" /> <span>Add to bag</span>
+            <HiPlus className="mr-2" /> <span>{addToBagLabel || 'Add to Bag'}</span>
           </ButtonLink>
         </div>
       </FadeIn>

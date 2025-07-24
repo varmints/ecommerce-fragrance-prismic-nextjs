@@ -45,6 +45,8 @@ const FragranceList: FC<FragranceListProps> = ({ slice }) => {
                   key={item.fragrance.id}
                   id={item.fragrance.id}
                   lang={item.fragrance.lang}
+                  buttonLabel={slice.primary.button}
+                  addToBagLabel={slice.primary.add_to_bag}
                 />
               );
             }

@@ -39,8 +39,8 @@
 							[
 								"fragrance",
 								{
-									"__TYPE__": "LinkContent",
 									"key": "aacc6ab9-bd7d-4f22-b977-fd862c546acb",
+									"__TYPE__": "LinkContent",
 									"value": {
 										"__TYPE__": "DocumentLink",
 										"id": "mock_document_id"
@@ -50,6 +50,16 @@
 						]
 					}
 				]
+			},
+			"button": {
+				"__TYPE__": "FieldContent",
+				"value": "more",
+				"type": "Text"
+			},
+			"add_to_bag": {
+				"__TYPE__": "FieldContent",
+				"value": "join",
+				"type": "Text"
 			}
 		},
 		"items": []

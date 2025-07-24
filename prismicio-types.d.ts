@@ -314,7 +314,64 @@ export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocu
   Lang
 >;
 
-export type AllDocumentTypes = FragranceDocument | HomepageDocument | SettingsDocument;
+/**
+ * Content for Translations documents
+ */
+interface TranslationsDocumentData {
+  /**
+   * Add to Bag field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.add_to_bag
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  add_to_bag: prismic.KeyTextField;
+
+  /**
+   * You may also like field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.you_may_also_like
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  you_may_also_like: prismic.KeyTextField;
+
+  /**
+   * About field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.about
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  about: prismic.KeyTextField;
+}
+
+/**
+ * Translations document from Prismic
+ *
+ * - **API ID**: `translations`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type TranslationsDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<
+  Simplify<TranslationsDocumentData>,
+  'translations',
+  Lang
+>;
+
+export type AllDocumentTypes =
+  | FragranceDocument
+  | HomepageDocument
+  | SettingsDocument
+  | TranslationsDocument;
 
 /**
  * Primary content in *CallToAction → Default → Primary*
@@ -448,6 +505,26 @@ export interface FragranceListSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
    */
   fragrances: prismic.GroupField<Simplify<FragranceListSliceDefaultPrimaryFragrancesItem>>;
+
+  /**
+   * Button field in *FragranceList → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fragrance_list.default.primary.button
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  button: prismic.KeyTextField;
+
+  /**
+   * Add To Bag field in *FragranceList → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fragrance_list.default.primary.add_to_bag
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  add_to_bag: prismic.KeyTextField;
 }
 
 /**
@@ -759,6 +836,8 @@ declare module '@prismicio/client' {
       HomepageDocumentDataSlicesSlice,
       SettingsDocument,
       SettingsDocumentData,
+      TranslationsDocument,
+      TranslationsDocumentData,
       AllDocumentTypes,
       CallToActionSlice,
       CallToActionSliceDefaultPrimary,

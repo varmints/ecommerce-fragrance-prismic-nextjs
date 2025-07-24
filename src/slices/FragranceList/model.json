@@ -56,6 +56,20 @@
               }
             }
           }
+        },
+        "button": {
+          "type": "Text",
+          "config": {
+            "label": "Button",
+            "placeholder": ""
+          }
+        },
+        "add_to_bag": {
+          "type": "Text",
+          "config": {
+            "label": "Add To Bag",
+            "placeholder": ""
+          }
         }
       },
       "items": {}

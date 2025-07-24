@@ -1,0 +1,32 @@
+{
+  "format": "custom",
+  "id": "translations",
+  "label": "Translations",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "add_to_bag": {
+        "type": "Text",
+        "config": {
+          "label": "Add to Bag",
+          "placeholder": ""
+        }
+      },
+      "you_may_also_like": {
+        "type": "Text",
+        "config": {
+          "label": "You may also like",
+          "placeholder": ""
+        }
+      },
+      "about": {
+        "type": "Text",
+        "config": {
+          "label": "About",
+          "placeholder": ""
+        }
+      }
+    }
+  }
+}
