@@ -53,7 +53,7 @@ export const NavBar = ({ settings, locales }: NavBarProps) => {
           <div className="absolute left-1/2 -translate-x-1/2 transform">
             <TransitionLink href="/">
               <Image
-                src="./logo.svg"
+                src="/logo.svg"
                 alt="Côte Royale Paris"
                 width={180}
                 height={30}
