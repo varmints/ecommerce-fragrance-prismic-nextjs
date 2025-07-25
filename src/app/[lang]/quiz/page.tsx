@@ -7,13 +7,9 @@ import { createClient } from '@/prismicio';
 import { Bounded } from '@/components/Bounded';
 import { Quiz } from './Quiz';
 
-type PageProps = {
-  params: {
-    lang: string;
-  };
-};
+type Params = { lang: string };
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: { params: Promise<Params> }) {
   const { lang } = await params;
   const client = createClient();
   const quiz = await client.getSingle('quiz', { lang }).catch(() => notFound());
@@ -26,7 +22,7 @@ export default async function Page({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { lang } = await params;
   const client = createClient();
   const page = await client.getSingle('quiz', { lang }).catch(() => notFound());
