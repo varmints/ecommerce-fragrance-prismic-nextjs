@@ -107,7 +107,7 @@ export const Results = ({ fragrances, onRetakeQuiz, votes }: ResultsProps) => {
               <div className="mt-40 mb-6 grid bg-neutral-200/10 transition-colors duration-700 group-hover:bg-neutral-200/20">
                 <PrismicNextImage
                   field={fragrance.data.bottle_image}
-                  className="bottle-image -mt-40 max-w-96 -rotate-12 opacity-100 blur-md transition-all duration-700 group-hover:scale-110 group-hover:rotate-0 group-hover:brightness-125"
+                  className="bottle-image mx-auto -mt-40 w-full max-w-96 -rotate-12 opacity-100 blur-md transition-all duration-700 group-hover:scale-110 group-hover:rotate-0 group-hover:brightness-125"
                   priority
                   imgixParams={{
                     width: 450,
