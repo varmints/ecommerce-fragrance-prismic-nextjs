@@ -6,6 +6,7 @@ import { FadeIn } from '@/components/FadeIn';
 import { PrismicNextImage } from '@prismicio/next';
 import { HiStar } from 'react-icons/hi2';
 import { PrismicText } from '@prismicio/react';
+import { useTranslations } from '@/hooks/useTranslations';
 import { formatPrice } from '@/utils/formatters';
 import { ButtonLink } from '@/components/ButtonLink';
 import { useGSAP } from '@gsap/react';
@@ -20,6 +21,8 @@ type ResultsProps = {
 };
 
 export const Results = ({ fragrances, onRetakeQuiz, votes }: ResultsProps) => {
+  const translations = useTranslations();
+
   useGSAP(() => {
     gsap.set('.bottle-image', {
       filter: 'brightness(0) blur(10px)',
@@ -84,10 +87,15 @@ export const Results = ({ fragrances, onRetakeQuiz, votes }: ResultsProps) => {
       vars={{ duration: 0.8 }}
     >
       <div className="mb-10">
-        <p className="mb-3 tracking-widest uppercase">Results</p>
-        <h2 className="font-display mb-6 text-5xl md:text-6xl">Your Personalized Recommendation</h2>
+        <p className="mb-3 tracking-widest uppercase">
+          {translations.quiz_results_eyebrow || 'Results'}
+        </p>
+        <h2 className="font-display mb-6 text-5xl md:text-6xl">
+          {translations.quiz_results_title || 'Your Personalized Recommendation'}
+        </h2>
         <p className="mb-12 text-lg text-gray-300">
-          A unique selection of fragrances that are most suited to you and your personal taste
+          {translations.quiz_results_body ||
+            'A unique selection of fragrances that are most suited to you and your personal taste'}
         </p>
       </div>
 
@@ -147,7 +155,7 @@ export const Results = ({ fragrances, onRetakeQuiz, votes }: ResultsProps) => {
         onClick={handleRetakeQuiz}
         className="mt-12 inline-block cursor-pointer border border-white px-12 py-4 font-extrabold tracking-wider text-white uppercase"
       >
-        Retake Quiz
+        {translations.quiz_results_retake_button || 'Retake Quiz'}
       </button>
     </FadeIn>
   );

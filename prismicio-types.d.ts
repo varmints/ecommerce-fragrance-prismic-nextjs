@@ -25,14 +25,16 @@ type PickContentRelationshipFieldData<
       TSubRelationship['customtypes'],
       TLang
     >;
-  } & { // Group
+  } & // Group
+  {
     [TGroup in Extract<
       TRelationship['fields'][number],
       prismic.CustomTypeModelFetchGroupLevel1 | prismic.CustomTypeModelFetchGroupLevel2
     > as TGroup['id']]: TData[TGroup['id']] extends prismic.GroupField<infer TGroupData>
       ? prismic.GroupField<PickContentRelationshipFieldData<TGroup, TGroupData, TLang>>
       : never;
-  } & { // Other fields
+  } & // Other fields
+  {
     [TFieldKey in Extract<TRelationship['fields'][number], string>]: TFieldKey extends keyof TData
       ? TData[TFieldKey]
       : never;
@@ -597,6 +599,83 @@ interface TranslationsDocumentData {
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
   privacy_policy: prismic.KeyTextField;
+
+  /**
+   * Quiz: Step field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.quiz_step
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  quiz_step: prismic.KeyTextField;
+
+  /**
+   * Quiz: Back Button field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.quiz_back_button
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  quiz_back_button: prismic.KeyTextField;
+
+  /**
+   * Quiz: Next Button field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.quiz_next_button
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  quiz_next_button: prismic.KeyTextField;
+
+  /**
+   * Quiz: Results Eyebrow field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.quiz_results_eyebrow
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  quiz_results_eyebrow: prismic.KeyTextField;
+
+  /**
+   * Quiz: Results Title field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.quiz_results_title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  quiz_results_title: prismic.KeyTextField;
+
+  /**
+   * Quiz: Results Body field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.quiz_results_body
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  quiz_results_body: prismic.KeyTextField;
+
+  /**
+   * Quiz: Results Retake Button field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.quiz_results_retake_button
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  quiz_results_retake_button: prismic.KeyTextField;
 }
 
 /**

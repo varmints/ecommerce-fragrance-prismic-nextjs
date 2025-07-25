@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { PrismicNextImage } from '@prismicio/next';
+import { useTranslations } from '@/hooks/useTranslations';
 
 gsap.registerPlugin(useGSAP);
 
@@ -25,6 +26,7 @@ export const Question = ({
   questionNumber,
   totalQuestions,
 }: QuestionProps) => {
+  const translations = useTranslations();
   const [answers, setAnswers] = useState<AnswerOption[]>([]);
   const [selectedOption, setSelectedOption] = useState<FragranceType | null>(null);
 
@@ -138,7 +140,9 @@ export const Question = ({
 
       <div className="question-content translate-y-2.5 opacity-0">
         <div className="mb-14">
-          <p className="mb-3 tracking-widest uppercase">Step {questionNumber}</p>
+          <p className="mb-3 tracking-widest uppercase">
+            {translations.quiz_step || 'Step'} {questionNumber}
+          </p>
           <h2 className="font-display mb-6 text-4xl md:text-5xl lg:text-6xl">
             {question.question_text || ''}
           </h2>
@@ -166,7 +170,7 @@ export const Question = ({
             onClick={handleBack}
             className="cursor-pointer border border-neutral-700 px-4 py-2 uppercase"
           >
-            Back
+            {translations.quiz_back_button || 'Back'}
           </button>
           <div className="text-center">
             {questionNumber} / {totalQuestions}
@@ -176,7 +180,7 @@ export const Question = ({
             className="cursor-pointer bg-white px-4 py-2 text-black uppercase disabled:cursor-not-allowed disabled:opacity-50"
             disabled={!selectedOption}
           >
-            Next
+            {translations.quiz_next_button || 'Next'}
           </button>
         </div>
       </div>

@@ -61,6 +61,55 @@
           "label": "Privacy Policy",
           "placeholder": ""
         }
+      },
+      "quiz_step": {
+        "type": "Text",
+        "config": {
+          "label": "Quiz: Step",
+          "placeholder": ""
+        }
+      },
+      "quiz_back_button": {
+        "type": "Text",
+        "config": {
+          "label": "Quiz: Back Button",
+          "placeholder": ""
+        }
+      },
+      "quiz_next_button": {
+        "type": "Text",
+        "config": {
+          "label": "Quiz: Next Button",
+          "placeholder": ""
+        }
+      },
+      "quiz_results_eyebrow": {
+        "type": "Text",
+        "config": {
+          "label": "Quiz: Results Eyebrow",
+          "placeholder": ""
+        }
+      },
+      "quiz_results_title": {
+        "type": "Text",
+        "config": {
+          "label": "Quiz: Results Title",
+          "placeholder": ""
+        }
+      },
+      "quiz_results_body": {
+        "type": "Text",
+        "config": {
+          "label": "Quiz: Results Body",
+          "placeholder": ""
+        }
+      },
+      "quiz_results_retake_button": {
+        "type": "Text",
+        "config": {
+          "label": "Quiz: Results Retake Button",
+          "placeholder": ""
+        }
       }
     }
   }
