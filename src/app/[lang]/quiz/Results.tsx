@@ -91,7 +91,7 @@ export const Results = ({ fragrances, onRetakeQuiz, votes }: ResultsProps) => {
         </p>
       </div>
 
-      <div className="flex justify-center gap-10">
+      <div className="flex flex-wrap justify-center gap-10">
         {winners.map((winner, index) => {
           const fragrance = fragrances.find(f => asText(f.data.title) === winner.title);
 
@@ -102,7 +102,7 @@ export const Results = ({ fragrances, onRetakeQuiz, votes }: ResultsProps) => {
           return (
             <div
               key={index}
-              className="result-item group max-w-md translate-y-5 text-left opacity-0"
+              className="result-item group max-w-md translate-y-5 overflow-hidden text-left opacity-0"
             >
               <div className="mt-40 mb-6 grid bg-neutral-200/10 transition-colors duration-700 group-hover:bg-neutral-200/20">
                 <PrismicNextImage

@@ -24,6 +24,15 @@ export const Quiz = ({ quizData, fragrances }: QuizProps) => {
 
   const currentQuestion = quizData.data.questions[currentQuestionIndex];
 
+  // Scroll to top on view change (mobile fix).
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [quizStatus, currentQuestionIndex]);
+
   const start = () => {
     if (!startScreenRef.current) return;
 

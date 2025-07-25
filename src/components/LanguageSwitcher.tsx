@@ -12,7 +12,7 @@ export interface LanguageSwitcherProps {
 }
 
 export const LanguageSwitcher = ({ locales, className }: LanguageSwitcherProps) => (
-  <div className={clsx('flex flex-wrap', className)}>
+  <div className={clsx('flex', className)}>
     <ul className="flex gap-3">
       {locales.map(locale => (
         <li
