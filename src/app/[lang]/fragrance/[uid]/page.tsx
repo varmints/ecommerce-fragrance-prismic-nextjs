@@ -17,8 +17,8 @@ type Params = { uid: string; lang: string };
 
 export default async function Page({ params }: { params: Promise<Params> }) {
   const { uid, lang } = await params;
-  const client = createClient();
   const prismicLang = reverseLocaleLookup(lang);
+  const client = createClient();
 
   if (!prismicLang) {
     notFound();
@@ -92,8 +92,8 @@ export default async function Page({ params }: { params: Promise<Params> }) {
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { uid, lang } = await params;
-  const client = createClient();
   const prismicLang = reverseLocaleLookup(lang);
+  const client = createClient();
 
   if (!prismicLang) {
     notFound();

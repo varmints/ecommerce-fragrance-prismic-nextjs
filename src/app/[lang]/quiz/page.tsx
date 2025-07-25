@@ -6,14 +6,16 @@ import { createClient } from '@/prismicio';
 
 import { Bounded } from '@/components/Bounded';
 import { Quiz } from './Quiz';
+import { reverseLocaleLookup } from '@/i18n';
 
 type Params = { lang: string };
 
 export default async function Page({ params }: { params: Promise<Params> }) {
   const { lang } = await params;
+  const prismicLang = reverseLocaleLookup(lang);
   const client = createClient();
-  const quiz = await client.getSingle('quiz', { lang }).catch(() => notFound());
-  const fragrances = await client.getAllByType('fragrance', { lang });
+  const quiz = await client.getSingle('quiz', { lang: prismicLang }).catch(() => notFound());
+  const fragrances = await client.getAllByType('fragrance', { lang: prismicLang });
 
   return (
     <Bounded className="grid min-h-screen place-items-center bg-[url('/background.avif')] bg-cover bg-center text-gray-50">
@@ -24,8 +26,9 @@ export default async function Page({ params }: { params: Promise<Params> }) {
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { lang } = await params;
+  const prismicLang = reverseLocaleLookup(lang);
   const client = createClient();
-  const page = await client.getSingle('quiz', { lang }).catch(() => notFound());
+  const page = await client.getSingle('quiz', { lang: prismicLang }).catch(() => notFound());
 
   return {
     title: page.data.meta_title,
