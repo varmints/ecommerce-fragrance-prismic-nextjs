@@ -91,7 +91,7 @@ export const NavBar = ({ settings, locales }: NavBarProps) => {
       >
         <div className="mb-6 flex justify-end">
           <button
-            className="p-2 text-white transition-colors duration-300 hover:bg-white/10"
+            className="cursor-pointer p-2 text-white transition-colors duration-300 hover:bg-white/10"
             onClick={toggleDrawer}
             aria-label="Close Menu"
             tabIndex={isDrawerOpen ? 0 : -1}
