@@ -61,10 +61,10 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.uid === itemToAdd.uid);
       if (existingItem) {
-        // Jeśli przedmiot już jest w koszyku, zwiększ jego ilość
+        // Jeśli przedmiot już jest w koszyku, zwiększ jego ilość, ale nie więcej niż 99
         return prevCart.map((item) =>
           item.uid === itemToAdd.uid
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: Math.min(99, item.quantity + 1) }
             : item,
         );
       }
@@ -78,15 +78,13 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   };
 
   const updateQuantity = (uid: string, quantity: number) => {
-    if (quantity <= 0) {
-      removeFromCart(uid);
-    } else {
-      setCart((prevCart) =>
-        prevCart.map((item) =>
-          item.uid === uid ? { ...item, quantity } : item,
-        ),
-      );
-    }
+    // Upewnij się, że ilość jest zawsze w przedziale 1-99
+    const newQuantity = Math.max(1, Math.min(99, quantity));
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.uid === uid ? { ...item, quantity: newQuantity } : item,
+      ),
+    );
   };
 
   const clearCart = () => {

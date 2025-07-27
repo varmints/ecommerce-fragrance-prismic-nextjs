@@ -8,8 +8,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { Bounded } from "@/components/Bounded";
 
-import { useState } from "react";
-import React from "react";
+import { useState, useEffect } from "react";
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, totalItems, totalPrice } =
@@ -40,54 +39,27 @@ export default function CartPage() {
     }
   };
 
-  // Local state for quantities
-  const [quantities, setQuantities] = useState(() => {
-    const initial: Record<string, string> = {};
-    cart.forEach((item) => {
-      initial[item.uid] = String(item.quantity);
-    });
-    return initial;
-  });
+  // Local state for quantities, derived from the cart context
+  const [quantities, setQuantities] = useState<Record<string, string>>({});
 
   // Update local state when cart changes (e.g. item removed)
-  React.useEffect(() => {
-    setQuantities((prev) => {
-      const updated: Record<string, string> = {};
-      cart.forEach((item) => {
-        updated[item.uid] = prev[item.uid] ?? String(item.quantity);
-      });
-      return updated;
+  useEffect(() => {
+    const newQuantities: Record<string, string> = {};
+    cart.forEach((item) => {
+      newQuantities[item.uid] = String(item.quantity);
     });
+    setQuantities(newQuantities);
   }, [cart]);
 
   // Handler for input change
   const handleQuantityChange = (uid: string, value: string) => {
     // Only allow numbers and empty string
     if (/^\d*$/.test(value)) {
-      let parsed = parseInt(value, 10);
-      if (Number.isNaN(parsed) || parsed < 1 || parsed > 99) {
-        parsed = 1;
-        setQuantities((prev) => ({ ...prev, [uid]: "1" }));
-      } else {
-        setQuantities((prev) => ({ ...prev, [uid]: value }));
-      }
-      updateQuantity(uid, parsed);
+      setQuantities((prev) => ({ ...prev, [uid]: value }));
+      const parsed = parseInt(value, 10);
+      // Let context handle clamping. If input is empty/invalid, default to 1.
+      updateQuantity(uid, Number.isNaN(parsed) ? 1 : parsed);
     }
-  };
-
-  // Handlers for plus/minus buttons
-  const handleIncrement = (uid: string) => {
-    const current = parseInt(quantities[uid] ?? "1", 10);
-    const next = current < 99 ? current + 1 : 99;
-    setQuantities((prev) => ({ ...prev, [uid]: String(next) }));
-    updateQuantity(uid, next);
-  };
-
-  const handleDecrement = (uid: string) => {
-    const current = parseInt(quantities[uid] ?? "1", 10);
-    const next = current > 1 ? current - 1 : 1;
-    setQuantities((prev) => ({ ...prev, [uid]: String(next) }));
-    updateQuantity(uid, next);
   };
 
   return (
@@ -127,15 +99,14 @@ export default function CartPage() {
                         <button
                           type="button"
                           aria-label={`minus ${item.name}`}
-                          onClick={() => handleDecrement(item.uid)}
+                          onClick={() =>
+                            updateQuantity(item.uid, item.quantity - 1)
+                          }
                           className={clsx(
                             "cursor-pointer border border-neutral-700 px-2.5 py-1 text-lg text-white hover:bg-neutral-700 focus:ring-2 focus:ring-white focus:outline-none",
-                            parseInt(quantities[item.uid] ?? "1", 10) <= 1 &&
-                              "opacity-0",
+                            item.quantity <= 1 && "opacity-0",
                           )}
-                          disabled={
-                            parseInt(quantities[item.uid] ?? "1", 10) <= 1
-                          }
+                          disabled={item.quantity <= 1}
                         >
                           −
                         </button>
@@ -155,15 +126,14 @@ export default function CartPage() {
                         <button
                           type="button"
                           aria-label={`plus ${item.name}`}
-                          onClick={() => handleIncrement(item.uid)}
+                          onClick={() =>
+                            updateQuantity(item.uid, item.quantity + 1)
+                          }
                           className={clsx(
                             "cursor-pointer border border-neutral-700 px-2.5 py-1 text-lg text-white hover:bg-neutral-700 focus:ring-2 focus:ring-white focus:outline-none",
-                            parseInt(quantities[item.uid] ?? "1", 10) >= 99 &&
-                              "opacity-0",
+                            item.quantity >= 99 && "opacity-0",
                           )}
-                          disabled={
-                            parseInt(quantities[item.uid] ?? "1", 10) >= 99
-                          }
+                          disabled={item.quantity >= 99}
                         >
                           +
                         </button>
