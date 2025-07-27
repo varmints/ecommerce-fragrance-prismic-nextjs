@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { ReactNode } from 'react';
-import Image from 'next/image';
-import { TransitionLink } from '@/components/TransitionLink';
-import { useTranslations } from '@/hooks/useTranslations';
-import { useParams } from 'next/navigation';
+import { ReactNode } from "react";
+import Image from "next/image";
+import { TransitionLink } from "@/components/TransitionLink";
+import { useTranslations } from "@/hooks/useTranslations";
+import { useParams } from "next/navigation";
 
 export const Footer = () => {
   const translations = useTranslations();
@@ -17,19 +17,19 @@ export const Footer = () => {
       </h2>
       <div className="container mx-auto px-6">
         <div className="grid gap-10 md:grid-cols-3">
-          <NavGroup title={translations?.shop || 'Shop'}>
+          <NavGroup title={translations?.shop || "Shop"}>
             <NavLink href={`/${lang}/fragrance/terra`}>Terra</NavLink>
             <NavLink href={`/${lang}/fragrance/igni`}>Igni</NavLink>
             <NavLink href={`/${lang}/fragrance/aqua`}>Aqua</NavLink>
           </NavGroup>
 
-          <NavGroup title={translations?.about || 'About'}>
+          <NavGroup title={translations?.about || "About"}>
             <NavLink href="#">Science</NavLink>
             <NavLink href="#">Our Story</NavLink>
             <NavLink href="#">Côte Royale</NavLink>
           </NavGroup>
 
-          <NavGroup title={translations?.social || 'Social'}>
+          <NavGroup title={translations?.social || "Social"}>
             <NavLink href="#">Instagram</NavLink>
             <NavLink href="#">X (Twitter)</NavLink>
             <NavLink href="#">Facebook</NavLink>
@@ -46,7 +46,13 @@ export const Footer = () => {
             aria-label="Côte Royale Home"
             className="order-first md:order-none"
           >
-            <Image src="/logo.svg" alt="CÔTE ROYALE" width={150} height={25} />
+            <Image
+              src="/logo.svg"
+              alt="CÔTE ROYALE"
+              width={150}
+              height={25}
+              className="w-28 md:w-38"
+            />
           </TransitionLink>
           <ul
             aria-label="Legal"
@@ -54,12 +60,12 @@ export const Footer = () => {
           >
             <li>
               <a href="#" className="hover:text-white">
-                {translations?.terms_and_conditions || 'Terms & conditions'}
+                {translations?.terms_and_conditions || "Terms & conditions"}
               </a>
             </li>
             <li>
               <a href="#" className="hover:text-white">
-                {translations?.privacy_policy || 'Privacy Policy'}
+                {translations?.privacy_policy || "Privacy Policy"}
               </a>
             </li>
           </ul>
@@ -76,7 +82,10 @@ type NavGroupProps = {
 
 const NavGroup = ({ title, children }: NavGroupProps) => (
   <nav aria-labelledby={`${title.toLowerCase()}-heading`}>
-    <h3 id={`${title.toLowerCase()}-heading`} className="mb-6 text-xl font-medium">
+    <h3
+      id={`${title.toLowerCase()}-heading`}
+      className="mb-6 text-xl font-medium"
+    >
       {title}
     </h3>
     <ul className="space-y-4" role="list">

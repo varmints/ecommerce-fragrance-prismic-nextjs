@@ -1,0 +1,213 @@
+"use client";
+
+import { useCart } from "@/context/CartContext";
+import { formatPrice } from "@/utils/formatters";
+import { HiOutlineTrash } from "react-icons/hi2";
+import clsx from "clsx";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import { Bounded } from "@/components/Bounded";
+
+import { useState } from "react";
+import React from "react";
+
+export default function CartPage() {
+  const { cart, removeFromCart, updateQuantity, totalItems, totalPrice } =
+    useCart();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const params = useParams();
+  const lang = params.lang as string;
+
+  const handleCheckout = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cart, lang }),
+      });
+      const { url, error } = await response.json();
+      if (error) throw new Error(error);
+      if (url) window.location.href = url;
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "An unknown error occurred.";
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Local state for quantities
+  const [quantities, setQuantities] = useState(() => {
+    const initial: Record<string, string> = {};
+    cart.forEach((item) => {
+      initial[item.uid] = String(item.quantity);
+    });
+    return initial;
+  });
+
+  // Update local state when cart changes (e.g. item removed)
+  React.useEffect(() => {
+    setQuantities((prev) => {
+      const updated: Record<string, string> = {};
+      cart.forEach((item) => {
+        updated[item.uid] = prev[item.uid] ?? String(item.quantity);
+      });
+      return updated;
+    });
+  }, [cart]);
+
+  // Handler for input change
+  const handleQuantityChange = (uid: string, value: string) => {
+    // Only allow numbers and empty string
+    if (/^\d*$/.test(value)) {
+      let parsed = parseInt(value, 10);
+      if (Number.isNaN(parsed) || parsed < 1 || parsed > 99) {
+        parsed = 1;
+        setQuantities((prev) => ({ ...prev, [uid]: "1" }));
+      } else {
+        setQuantities((prev) => ({ ...prev, [uid]: value }));
+      }
+      updateQuantity(uid, parsed);
+    }
+  };
+
+  // Handlers for plus/minus buttons
+  const handleIncrement = (uid: string) => {
+    const current = parseInt(quantities[uid] ?? "1", 10);
+    const next = current < 99 ? current + 1 : 99;
+    setQuantities((prev) => ({ ...prev, [uid]: String(next) }));
+    updateQuantity(uid, next);
+  };
+
+  const handleDecrement = (uid: string) => {
+    const current = parseInt(quantities[uid] ?? "1", 10);
+    const next = current > 1 ? current - 1 : 1;
+    setQuantities((prev) => ({ ...prev, [uid]: String(next) }));
+    updateQuantity(uid, next);
+  };
+
+  return (
+    <Bounded>
+      <div className="mx-auto max-w-2xl">
+        <h1 className="font-display mb-6 text-3xl">Your Bag ({totalItems})</h1>
+        <div className="flex-1 overflow-y-auto p-0">
+          {cart.length === 0 ? (
+            <p className="text-center text-neutral-400">Your bag is empty.</p>
+          ) : (
+            <ul className="divide-y divide-neutral-800">
+              {cart.map((item) => (
+                <li
+                  key={item.uid}
+                  className="grid grid-cols-1 gap-4 py-4 md:flex md:gap-0"
+                >
+                  <div className="relative flex h-40 w-full flex-shrink-0 justify-center overflow-hidden border border-neutral-700 p-1 md:w-40">
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      width={160}
+                      height={160}
+                      className="w-auto"
+                    />
+                  </div>
+                  <div className="flex flex-1 justify-between p-2 md:flex-col md:p-4">
+                    <div>
+                      <h3 className="text-lg font-bold md:text-base">
+                        {item.name}
+                      </h3>
+                      <p className="text-sm text-neutral-400">
+                        {formatPrice(item.price)}
+                      </p>
+                    </div>
+                    <div className="mt-2 flex items-center">
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          aria-label={`minus ${item.name}`}
+                          onClick={() => handleDecrement(item.uid)}
+                          className={clsx(
+                            "cursor-pointer border border-neutral-700 px-2.5 py-1 text-lg text-white hover:bg-neutral-700 focus:ring-2 focus:ring-white focus:outline-none",
+                            parseInt(quantities[item.uid] ?? "1", 10) <= 1 &&
+                              "opacity-0",
+                          )}
+                          disabled={
+                            parseInt(quantities[item.uid] ?? "1", 10) <= 1
+                          }
+                        >
+                          −
+                        </button>
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          min="1"
+                          max="99"
+                          value={quantities[item.uid] ?? ""}
+                          onChange={(e) =>
+                            handleQuantityChange(item.uid, e.target.value)
+                          }
+                          aria-label={`Ilość dla ${item.name}`}
+                          className="w-16 border border-neutral-700 p-1 text-center text-lg font-bold focus:ring-2 focus:ring-white focus:outline-none"
+                        />
+                        <button
+                          type="button"
+                          aria-label={`plus ${item.name}`}
+                          onClick={() => handleIncrement(item.uid)}
+                          className={clsx(
+                            "cursor-pointer border border-neutral-700 px-2.5 py-1 text-lg text-white hover:bg-neutral-700 focus:ring-2 focus:ring-white focus:outline-none",
+                            parseInt(quantities[item.uid] ?? "1", 10) >= 99 &&
+                              "opacity-0",
+                          )}
+                          disabled={
+                            parseInt(quantities[item.uid] ?? "1", 10) >= 99
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <button
+                      onClick={() => removeFromCart(item.uid)}
+                      className="cursor-pointer p-2 text-neutral-600 hover:text-red-500 md:p-4"
+                    >
+                      <HiOutlineTrash className="h-6 w-6 md:h-5 md:w-5" />
+                    </button>
+                    <p className="text-xl font-bold md:ml-4">
+                      {formatPrice(item.price * item.quantity)}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div className="my-6 border-t border-neutral-700 pt-6">
+          <div className="flex justify-between font-bold">
+            <span className="text-lg">Subtotal</span>
+            <span className="text-2xl">{formatPrice(totalPrice)}</span>
+          </div>
+          <p className="mt-1 text-sm text-neutral-400">
+            Shipping and taxes calculated at checkout.
+          </p>
+          {error && <p className="mt-4 text-center text-red-500">{error}</p>}
+          <button
+            onClick={handleCheckout}
+            disabled={cart.length === 0 || isLoading}
+            className={clsx(
+              "mt-6 inline-flex w-full cursor-pointer items-center justify-center px-12 py-4 text-center font-extrabold tracking-wider uppercase transition-colors duration-300",
+              "bg-white text-black hover:bg-white/80",
+              "disabled:cursor-not-allowed disabled:opacity-50",
+            )}
+          >
+            {isLoading ? "Processing..." : "Checkout with Stripe"}
+          </button>
+        </div>
+      </div>
+    </Bounded>
+  );
+}

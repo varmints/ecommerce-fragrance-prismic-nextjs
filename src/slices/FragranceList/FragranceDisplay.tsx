@@ -1,11 +1,11 @@
-import { ButtonLink } from '@/components/ButtonLink';
-import { FadeIn } from '@/components/FadeIn';
-import { FragranceAttributes } from '@/components/FragranceAttributes';
-import { createClient } from '@/prismicio';
-import { Content } from '@prismicio/client';
-import { PrismicNextImage } from '@prismicio/next';
-import { PrismicRichText, PrismicText } from '@prismicio/react';
-import { HiPlus } from 'react-icons/hi2';
+import { ButtonLink } from "@/components/ButtonLink";
+import { FadeIn } from "@/components/FadeIn";
+import { FragranceAttributes } from "@/components/FragranceAttributes";
+import { createClient } from "@/prismicio";
+import { Content } from "@prismicio/client";
+import { PrismicNextImage } from "@prismicio/next";
+import { PrismicRichText, PrismicText } from "@prismicio/react";
+import { HiPlus } from "react-icons/hi2";
 
 type FragranceDisplayProps = {
   id: string;
@@ -21,7 +21,9 @@ export const FragranceDisplay = async ({
   addToBagLabel,
 }: FragranceDisplayProps) => {
   const client = createClient();
-  const fragrance = await client.getByID<Content.FragranceDocument>(id, { lang });
+  const fragrance = await client.getByID<Content.FragranceDocument>(id, {
+    lang,
+  });
 
   return (
     <FadeIn
@@ -32,11 +34,11 @@ export const FragranceDisplay = async ({
       <div className="absolute inset-0 z-0">
         <PrismicNextImage
           field={fragrance.data.feature_image}
+          alt=""
           className="object-cover opacity-40 md:opacity-100"
           fill
           width={1150}
           quality={90}
-          alt=""
         />
       </div>
 
@@ -49,7 +51,9 @@ export const FragranceDisplay = async ({
           <PrismicText field={fragrance.data.title} />
         </h3>
 
-        <p className="mb-8 text-base font-semibold text-gray-300">Eau de Parfum</p>
+        <p className="mb-8 text-base font-semibold text-gray-300">
+          Eau de Parfum
+        </p>
 
         <div className="mb-10 max-w-md text-lg text-gray-300">
           <PrismicRichText field={fragrance.data.description} />
@@ -63,11 +67,12 @@ export const FragranceDisplay = async ({
 
         <div className="flex flex-wrap gap-4">
           <ButtonLink document={fragrance} variant="Secondary">
-            {buttonLabel || 'Discover'}
+            {buttonLabel || "Discover"}
           </ButtonLink>
 
           <ButtonLink href="#" variant="Primary">
-            <HiPlus className="mr-2" /> <span>{addToBagLabel || 'Add to Bag'}</span>
+            <HiPlus className="mr-2" />{" "}
+            <span>{addToBagLabel || "Add to Bag"}</span>
           </ButtonLink>
         </div>
       </FadeIn>

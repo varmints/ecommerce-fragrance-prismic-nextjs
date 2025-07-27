@@ -18,6 +18,6 @@ export const config = {
      * - favicon.ico (favicon)
      * - all files in the public folder (e.g. /favicon.ico)
      */
-    '/((?!api|_next/static|_next/image|slice-simulator|.*\..*).*)',
+    '/((?!api|_next|slice-simulator|.*\..*).*)',
   ],
 };

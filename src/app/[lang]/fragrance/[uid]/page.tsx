@@ -1,21 +1,23 @@
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { asImageSrc, asText } from '@prismicio/client';
-import { PrismicRichText, PrismicText } from '@prismicio/react';
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { asImageSrc, asText } from "@prismicio/client";
+import { PrismicRichText, PrismicText } from "@prismicio/react";
 
-import { createClient } from '@/prismicio';
-import { Bounded } from '@/components/Bounded';
-import { PrismicNextImage } from '@prismicio/next';
-import { FragranceAttributes } from '@/components/FragranceAttributes';
-import { formatPrice } from '@/utils/formatters';
-import { HiStar } from 'react-icons/hi2';
-import { OtherFragrances } from '@/components/OtherFragrances';
-import { LOCALES, reverseLocaleLookup } from '@/i18n';
-import { AddToCartButton } from '@/components/AddToCartButton';
+import { createClient } from "@/prismicio";
+import { Bounded } from "@/components/Bounded";
+import { PrismicNextImage } from "@prismicio/next";
+import { FragranceAttributes } from "@/components/FragranceAttributes";
+import { formatPrice } from "@/utils/formatters";
+import { HiStar } from "react-icons/hi2";
+import { OtherFragrances } from "@/components/OtherFragrances";
+import { LOCALES, reverseLocaleLookup } from "@/i18n";
+import { AddToCartButton } from "@/components/AddToCartButton";
 
-type Params = { uid: string; lang: string };
+type PageProps = {
+  params: Promise<{ uid: string; lang: string }>;
+};
 
-export default async function Page({ params }: { params: Promise<Params> }) {
+export default async function Page({ params }: PageProps) {
   const { uid, lang } = await params;
   const prismicLang = reverseLocaleLookup(lang);
   const client = createClient();
@@ -25,12 +27,16 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   }
 
   const page = await client
-    .getByUID('fragrance', uid, { lang: prismicLang })
+    .getByUID("fragrance", uid, { lang: prismicLang })
     .catch(() => notFound());
 
   // Fetch other fragrances on the server
-  const allFragrances = await client.getAllByType('fragrance', { lang: prismicLang });
-  const otherFragrances = allFragrances.filter(fragrance => fragrance.uid !== uid);
+  const allFragrances = await client.getAllByType("fragrance", {
+    lang: prismicLang,
+  });
+  const otherFragrances = allFragrances.filter(
+    (fragrance) => fragrance.uid !== uid,
+  );
 
   return (
     <Bounded className="py-10">
@@ -38,6 +44,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
         <div className="relative mb-14 flex justify-center pb-10">
           <PrismicNextImage
             field={page.data.bottle_image}
+            alt=""
             width={600}
             height={600}
             priority
@@ -45,6 +52,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
           />
           <PrismicNextImage
             field={page.data.bottle_image}
+            alt=""
             width={600}
             height={600}
             priority
@@ -63,10 +71,21 @@ export default async function Page({ params }: { params: Promise<Params> }) {
 
             <PrismicRichText field={page.data.description} />
 
-            <FragranceAttributes mood={page.data.mood} scentProfile={page.data.scent_profile} />
-            <p className="mt-10 text-3xl font-light">{formatPrice(page.data.price)}</p>
+            <FragranceAttributes
+              mood={page.data.mood}
+              scentProfile={page.data.scent_profile}
+            />
+            <p className="mt-10 text-3xl font-light">
+              {formatPrice(page.data.price)}
+            </p>
 
-            <AddToCartButton />
+            <AddToCartButton
+              uid={page.id}
+              name={asText(page.data.title)}
+              price={page.data.price || 0}
+              image={asImageSrc(page.data.bottle_image) || ""}
+              label="Add to Bag"
+            />
 
             <div className="flex items-center gap-4 border-t border-neutral-700 pt-6">
               <a href="#" className="hover:text-neutral-300">
@@ -90,7 +109,9 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   );
 }
 
-export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { uid, lang } = await params;
   const prismicLang = reverseLocaleLookup(lang);
   const client = createClient();
@@ -100,22 +121,22 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   }
 
   const page = await client
-    .getByUID('fragrance', uid, { lang: prismicLang })
+    .getByUID("fragrance", uid, { lang: prismicLang })
     .catch(() => notFound());
-  const settings = await client.getSingle('settings', { lang: prismicLang });
+  const settings = await client.getSingle("settings", { lang: prismicLang });
 
   return {
-    title: asText(page.data.title) + ' | ' + settings.data.site_title,
+    title: asText(page.data.title) + " | " + settings.data.site_title,
     description: `Discover ${asText(page.data.title)}, the newest fragrance from Côte Royale Paris.`,
     openGraph: {
-      images: [{ url: asImageSrc(page.data.meta_image) ?? '' }],
+      images: [{ url: asImageSrc(page.data.meta_image) ?? "" }],
     },
   };
 }
 
 export async function generateStaticParams() {
   const client = createClient();
-  const pages = await client.getAllByType('fragrance', { lang: '*' });
+  const pages = await client.getAllByType("fragrance", { lang: "*" });
 
-  return pages.map(page => ({ uid: page.uid, lang: LOCALES[page.lang] }));
+  return pages.map((page) => ({ uid: page.uid, lang: LOCALES[page.lang] }));
 }
