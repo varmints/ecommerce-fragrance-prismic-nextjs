@@ -91,7 +91,7 @@ export default function CartPage() {
   };
 
   return (
-    <Bounded>
+    <Bounded className="grid min-h-[70vh] place-items-center">
       <div className="mx-auto max-w-2xl">
         <h1 className="font-display mb-6 text-3xl">Your Bag ({totalItems})</h1>
         <div className="flex-1 overflow-y-auto p-0">

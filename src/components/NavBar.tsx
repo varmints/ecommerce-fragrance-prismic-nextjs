@@ -75,7 +75,7 @@ type NavBarProps = {
 
 export const NavBar = ({ settings, locales }: NavBarProps) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  // Removed modal state for cart
+  const { totalItems } = useCart();
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
   const { lang } = useParams();
 
@@ -87,9 +87,15 @@ export const NavBar = ({ settings, locales }: NavBarProps) => {
             <button
               onClick={toggleDrawer}
               aria-label="Menu"
-              className="cursor-pointer p-2 text-white transition-colors duration-300 hover:bg-white/20"
+              className="relative cursor-pointer p-2 text-white transition-colors duration-300 hover:bg-white/20"
             >
               <HiBars3 size={24} />
+              {totalItems > 0 && (
+                <span className="absolute top-1.5 right-1 flex size-3 md:hidden">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"></span>
+                  <span className="relative inline-flex size-3 rounded-full bg-white"></span>
+                </span>
+              )}
             </button>
 
             <div className="absolute left-1/2 -translate-x-1/2 transform">
