@@ -1,38 +1,21 @@
-import localFont from "next/font/local";
-import { Raleway } from "next/font/google";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { PrismicPreview } from "@prismicio/next";
-import { repositoryName } from "@/prismicio";
 import { createClient } from "@/prismicio";
 import { isFilled } from "@prismicio/client";
-import { ViewTransitions } from "next-view-transitions";
 import { getLocales } from "@/utils/getLocales";
 import { reverseLocaleLookup } from "@/i18n";
 
-import { CartProvider } from "@/context/CartContext";
 import { TranslationsProvider } from "@/components/TranslationsProvider";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
-import "../globals.css";
 
-const raleway = Raleway({
-  variable: "--font-raleway",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const gambarino = localFont({
-  src: "../gambarino.woff2",
-  display: "swap",
-  variable: "--font-gambarino",
-});
+type PageProps = {
+  params: Promise<{ lang: string }>;
+};
 
 export async function generateMetadata({
   params,
-}: {
-  params: { lang: string };
-}): Promise<Metadata> {
+}: PageProps): Promise<Metadata> {
   const { lang } = await params;
   const client = createClient();
   const prismicLang = reverseLocaleLookup(lang);
@@ -58,7 +41,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function RootLayout({
+export default async function LangLayout({
   children,
   params,
 }: Readonly<{
@@ -86,22 +69,10 @@ export default async function RootLayout({
   const translations = translationsDoc ? translationsDoc.data : null;
 
   return (
-    <ViewTransitions>
-      <html
-        lang={lang}
-        className={`${raleway.variable} ${gambarino.variable} antialiased`}
-      >
-        <body className="bg-neutral-900 text-white">
-          <CartProvider>
-            <TranslationsProvider value={translations}>
-              <NavBar settings={settings} locales={locales} />
-              <main className="">{children}</main>
-              <Footer />
-            </TranslationsProvider>
-          </CartProvider>
-          <PrismicPreview repositoryName={repositoryName} />
-        </body>
-      </html>
-    </ViewTransitions>
+    <TranslationsProvider value={translations}>
+      <NavBar settings={settings} locales={locales} />
+      <main>{children}</main>
+      <Footer />
+    </TranslationsProvider>
   );
 }

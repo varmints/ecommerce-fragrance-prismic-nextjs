@@ -1,10 +1,23 @@
-import type { NextRequest } from 'next/server';
-import { createLocaleRedirect, pathnameHasLocale } from '@/i18n';
+import { NextRequest, NextResponse } from "next/server";
+import { createLocaleRedirect, pathnameHasLocale, LOCALES } from "@/i18n";
 
 export async function middleware(request: NextRequest) {
+  // If the pathname does not have a locale, redirect to a localized URL
   if (!pathnameHasLocale(request)) {
     return createLocaleRedirect(request);
   }
+
+  // The request has a locale, so we can set a cookie with it
+  const pathname = request.nextUrl.pathname;
+  const locale = pathname.split("/")[1] || LOCALES["en-us"];
+
+  const response = NextResponse.next();
+  response.cookies.set("NEXT_LOCALE", locale, {
+    path: "/",
+    sameSite: "lax",
+  });
+
+  return response;
 }
 
 export const config = {
@@ -18,6 +31,6 @@ export const config = {
      * - favicon.ico (favicon)
      * - all files in the public folder (e.g. /favicon.ico)
      */
-    '/((?!api|_next|slice-simulator|.*\..*).*)',
+    "/((?!api|_next|slice-simulator|.*\\..*).*)",
   ],
 };
