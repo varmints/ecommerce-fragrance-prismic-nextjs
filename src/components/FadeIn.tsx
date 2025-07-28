@@ -16,7 +16,7 @@ type FadeInProps = {
 
 export const FadeIn = ({
   children,
-  start = "top 85%",
+  start = "top 90%",
   vars = {},
   className,
 }: FadeInProps) => {

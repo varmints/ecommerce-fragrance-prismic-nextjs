@@ -10,11 +10,7 @@ type BoundedProps = {
 export const Bounded = forwardRef<HTMLElement, BoundedProps>(
   ({ as: Comp = "section", className, children, ...restProps }, ref) => {
     return (
-      <Comp
-        ref={ref}
-        className={clsx("px-6 pt-40 md:pt-32", className)}
-        {...restProps}
-      >
+      <Comp ref={ref} className={clsx("px-6", className)} {...restProps}>
         <div className="mx-auto w-full max-w-6xl">{children}</div>
       </Comp>
     );

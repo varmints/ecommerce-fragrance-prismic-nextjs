@@ -64,7 +64,7 @@ export default async function NotFound() {
   }
 
   return (
-    <Bounded className="relative grid min-h-screen items-center overflow-hidden bg-neutral-950">
+    <Bounded className="relative grid min-h-dvh items-center overflow-hidden bg-neutral-950">
       {isFilled.image(page.data.image) && (
         <FadeIn
           vars={{ scale: 1, opacity: 0.5 }}

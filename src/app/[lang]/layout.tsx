@@ -71,7 +71,7 @@ export default async function LangLayout({
   return (
     <TranslationsProvider value={translations}>
       <NavBar settings={settings} locales={locales} />
-      <main>{children}</main>
+      <main className="pt-14 md:pt-18">{children}</main>
       <Footer />
     </TranslationsProvider>
   );

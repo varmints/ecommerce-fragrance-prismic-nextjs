@@ -1,8 +1,8 @@
 "use client";
 
-import { useCart } from "@/context/CartContext";
-import { useThrottle } from "@/hooks/useThrottle";
+import { useState } from "react";
 import clsx from "clsx";
+import { useCart } from "@/context/CartContext";
 
 type AddToCartButtonProps = {
   uid: string;
@@ -22,20 +22,22 @@ export const AddToCartButton = ({
   className,
 }: AddToCartButtonProps) => {
   const { addToCart } = useCart();
-
-  const [handleAddToCart, isThrottled] = useThrottle(() => {
-    // Zawsze przekazujemy string (URL) do koszyka
+  const [isPressed, setIsPressed] = useState(false);
+  const handleAddToCart = () => {
+    if (isPressed) return;
+    setIsPressed(true);
     const itemToAdd = { uid, name, price, image };
     addToCart(itemToAdd);
-  }, 300); // Ignoruj kliknięcia przez 300ms po pierwszym
+    setTimeout(() => setIsPressed(false), 200); // animacja trwa 200ms
+  };
 
   return (
     <button
       onClick={handleAddToCart}
-      disabled={isThrottled}
+      disabled={isPressed}
       className={clsx(
-        "w-full cursor-pointer bg-white py-3 font-extrabold text-black uppercase transition-all duration-150 hover:bg-neutral-200 disabled:cursor-wait disabled:bg-neutral-400",
-        isThrottled ? "scale-95" : "scale-100",
+        "w-full cursor-pointer bg-white py-3 font-extrabold text-black uppercase transition-all duration-200 hover:bg-neutral-200 disabled:cursor-wait disabled:bg-neutral-400",
+        isPressed ? "scale-97" : "scale-100",
         className,
       )}
     >
