@@ -80,7 +80,7 @@ export default async function Page({ params }: PageProps) {
             </p>
 
             <AddToCartButton
-              uid={page.id}
+              id={page.id}
               name={asText(page.data.title)}
               price={page.data.price || 0}
               image={asImageSrc(page.data.bottle_image) || ""}

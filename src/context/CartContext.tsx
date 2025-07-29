@@ -10,7 +10,7 @@ import {
 
 // Typ dla pojedynczego przedmiotu w koszyku
 export interface CartItem {
-  uid: string;
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -59,11 +59,11 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
   const addToCart = (itemToAdd: Omit<CartItem, "quantity">) => {
     setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.uid === itemToAdd.uid);
+      const existingItem = prevCart.find((item) => item.id === itemToAdd.id);
       if (existingItem) {
         // Jeśli przedmiot już jest w koszyku, zwiększ jego ilość, ale nie więcej niż 99
         return prevCart.map((item) =>
-          item.uid === itemToAdd.uid
+          item.id === itemToAdd.id
             ? { ...item, quantity: Math.min(99, item.quantity + 1) }
             : item,
         );
@@ -73,16 +73,16 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     });
   };
 
-  const removeFromCart = (uid: string) => {
-    setCart((prevCart) => prevCart.filter((item) => item.uid !== uid));
+  const removeFromCart = (id: string) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
-  const updateQuantity = (uid: string, quantity: number) => {
+  const updateQuantity = (id: string, quantity: number) => {
     // Upewnij się, że ilość jest zawsze w przedziale 1-99
     const newQuantity = Math.max(1, Math.min(99, quantity));
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.uid === uid ? { ...item, quantity: newQuantity } : item,
+        item.id === id ? { ...item, quantity: newQuantity } : item,
       ),
     );
   };

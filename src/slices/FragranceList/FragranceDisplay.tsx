@@ -1,11 +1,11 @@
+import { AddToCartButton } from "@/components/AddToCartButton";
 import { ButtonLink } from "@/components/ButtonLink";
 import { FadeIn } from "@/components/FadeIn";
 import { FragranceAttributes } from "@/components/FragranceAttributes";
 import { createClient } from "@/prismicio";
-import { Content } from "@prismicio/client";
+import { asImageSrc, asText, Content } from "@prismicio/client";
 import { PrismicNextImage } from "@prismicio/next";
 import { PrismicRichText, PrismicText } from "@prismicio/react";
-import { HiPlus } from "react-icons/hi2";
 
 type FragranceDisplayProps = {
   id: string;
@@ -70,10 +70,14 @@ export const FragranceDisplay = async ({
             {buttonLabel || "Discover"}
           </ButtonLink>
 
-          <ButtonLink href="#" variant="Primary">
-            <HiPlus className="mr-2" />{" "}
-            <span>{addToBagLabel || "Add to Bag"}</span>
-          </ButtonLink>
+          <AddToCartButton
+            id={fragrance.id}
+            name={asText(fragrance.data.title)}
+            price={fragrance.data.price || 0}
+            image={asImageSrc(fragrance.data.bottle_image) || ""}
+            label={addToBagLabel}
+            variant="short"
+          />
         </div>
       </FadeIn>
     </FadeIn>

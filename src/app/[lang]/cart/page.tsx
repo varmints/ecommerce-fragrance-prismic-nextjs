@@ -46,19 +46,19 @@ export default function CartPage() {
   useEffect(() => {
     const newQuantities: Record<string, string> = {};
     cart.forEach((item) => {
-      newQuantities[item.uid] = String(item.quantity);
+      newQuantities[item.id] = String(item.quantity);
     });
     setQuantities(newQuantities);
   }, [cart]);
 
   // Handler for input change
-  const handleQuantityChange = (uid: string, value: string) => {
+  const handleQuantityChange = (id: string, value: string) => {
     // Only allow numbers and empty string
     if (/^\d*$/.test(value)) {
-      setQuantities((prev) => ({ ...prev, [uid]: value }));
+      setQuantities((prev) => ({ ...prev, [id]: value }));
       const parsed = parseInt(value, 10);
       // Let context handle clamping. If input is empty/invalid, default to 1.
-      updateQuantity(uid, Number.isNaN(parsed) ? 1 : parsed);
+      updateQuantity(id, Number.isNaN(parsed) ? 1 : parsed);
     }
   };
 
@@ -73,7 +73,7 @@ export default function CartPage() {
             <ul className="divide-y divide-neutral-800">
               {cart.map((item) => (
                 <li
-                  key={item.uid}
+                  key={item.id}
                   className="grid grid-cols-1 gap-4 py-4 md:flex md:gap-0"
                 >
                   <div className="relative flex h-40 w-full flex-shrink-0 justify-center overflow-hidden border border-neutral-700 p-1 md:w-40">
@@ -100,7 +100,7 @@ export default function CartPage() {
                           type="button"
                           aria-label={`minus ${item.name}`}
                           onClick={() =>
-                            updateQuantity(item.uid, item.quantity - 1)
+                            updateQuantity(item.id, item.quantity - 1)
                           }
                           className={clsx(
                             "cursor-pointer border border-neutral-700 px-2.5 py-1 text-lg text-white hover:bg-neutral-700 focus:ring-2 focus:ring-white focus:outline-none",
@@ -116,9 +116,9 @@ export default function CartPage() {
                           pattern="[0-9]*"
                           min="1"
                           max="99"
-                          value={quantities[item.uid] ?? ""}
+                          value={quantities[item.id] ?? ""}
                           onChange={(e) =>
-                            handleQuantityChange(item.uid, e.target.value)
+                            handleQuantityChange(item.id, e.target.value)
                           }
                           aria-label={`Ilość dla ${item.name}`}
                           className="w-16 border border-neutral-700 p-1 text-center text-lg font-bold focus:ring-2 focus:ring-white focus:outline-none"
@@ -127,7 +127,7 @@ export default function CartPage() {
                           type="button"
                           aria-label={`plus ${item.name}`}
                           onClick={() =>
-                            updateQuantity(item.uid, item.quantity + 1)
+                            updateQuantity(item.id, item.quantity + 1)
                           }
                           className={clsx(
                             "cursor-pointer border border-neutral-700 px-2.5 py-1 text-lg text-white hover:bg-neutral-700 focus:ring-2 focus:ring-white focus:outline-none",
@@ -142,7 +142,7 @@ export default function CartPage() {
                   </div>
                   <div className="flex items-center justify-between">
                     <button
-                      onClick={() => removeFromCart(item.uid)}
+                      onClick={() => removeFromCart(item.id)}
                       className="cursor-pointer p-2 text-neutral-600 hover:text-red-500 md:p-4"
                     >
                       <HiOutlineTrash className="h-6 w-6 md:h-5 md:w-5" />

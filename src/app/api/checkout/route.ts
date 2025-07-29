@@ -1,17 +1,17 @@
-import { NextResponse } from 'next/server';
-import { asText } from '@prismicio/client';
-import Stripe from 'stripe';
-import { createClient } from '@/prismicio';
-import { CartItem } from '@/context/CartContext';
-import { reverseLocaleLookup } from '@/i18n';
+import { NextResponse } from "next/server";
+import { asText } from "@prismicio/client";
+import Stripe from "stripe";
+import { createClient } from "@/prismicio";
+import { CartItem } from "@/context/CartContext";
+import { reverseLocaleLookup } from "@/i18n";
 import {
   ALLOWED_SHIPPING_COUNTRIES,
   CURRENCY,
   SHIPPING_OPTIONS,
-} from '@/config';
+} from "@/config";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-06-30.basil',
+  apiVersion: "2025-06-30.basil",
 });
 
 export async function POST(request: Request) {
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
 
   if (!cart || !Array.isArray(cart) || cart.length === 0) {
     return NextResponse.json(
-      { error: 'Cart is empty or invalid.' },
+      { error: "Cart is empty or invalid." },
       { status: 400 },
     );
   }
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 
   try {
     // Pobierz wszystkie unikalne ID produktów z koszyka
-    const productIds = [...new Set(cart.map((item) => item.uid))];
+    const productIds = [...new Set(cart.map((item) => item.id))];
     const prismicProducts = await client.getAllByIDs(productIds, {
       lang: prismicLang,
     });
@@ -43,19 +43,19 @@ export async function POST(request: Request) {
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
     for (const item of cart) {
-      const prismicProduct = prismicProductMap.get(item.uid);
+      const prismicProduct = prismicProductMap.get(item.id);
 
       if (!prismicProduct) {
         return NextResponse.json(
-          { error: `Product with ID ${item.uid} not found.` },
+          { error: `Product with ID ${item.id} not found.` },
           { status: 404 },
         );
       }
 
       // Sprawdź typ dokumentu
-      if (prismicProduct.type !== 'fragrance') {
+      if (prismicProduct.type !== "fragrance") {
         return NextResponse.json(
-          { error: `Product with ID ${item.uid} is not a fragrance.` },
+          { error: `Product with ID ${item.id} is not a fragrance.` },
           { status: 400 },
         );
       }
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
         price_data: {
           currency: CURRENCY,
           product_data: {
-            name: asText(prismicProduct.data.title) || 'Unnamed Product',
+            name: asText(prismicProduct.data.title) || "Unnamed Product",
             images: prismicProduct.data.bottle_image?.url
               ? [prismicProduct.data.bottle_image.url]
               : [],
@@ -86,13 +86,13 @@ export async function POST(request: Request) {
       });
     }
 
-    const origin = request.headers.get('origin') || 'http://localhost:3000';
+    const origin = request.headers.get("origin") || "http://localhost:3000";
     const success_url = `${origin}/${lang}/order/success?session_id={CHECKOUT_SESSION_ID}`;
     const cancel_url = `${origin}/${lang}/order/cancel`;
 
     const session = await stripe.checkout.sessions.create({
       line_items,
-      mode: 'payment',
+      mode: "payment",
       success_url,
       cancel_url,
       shipping_options: SHIPPING_OPTIONS,
@@ -103,16 +103,16 @@ export async function POST(request: Request) {
 
     if (!session.url) {
       return NextResponse.json(
-        { error: 'Could not create Stripe session.' },
+        { error: "Could not create Stripe session." },
         { status: 500 },
       );
     }
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
-    console.error('Stripe session creation failed:', error);
+    console.error("Stripe session creation failed:", error);
     const errorMessage =
-      error instanceof Error ? error.message : 'Internal Server Error';
+      error instanceof Error ? error.message : "Internal Server Error";
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
