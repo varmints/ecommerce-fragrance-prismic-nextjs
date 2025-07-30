@@ -1,13 +1,14 @@
-import type { NextConfig } from 'next';
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'images.prismic.io',
-        port: '',
-        pathname: '/fragrance-cote-royale/**',
+        protocol: "https",
+        hostname: "images.prismic.io",
+        port: "",
+        pathname: "/fragrance-cote-royale/**",
       },
     ],
   },
