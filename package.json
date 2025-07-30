@@ -41,5 +41,8 @@
     "slice-machine-ui": "^2.17.1",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": "22.x"
   }
 }
