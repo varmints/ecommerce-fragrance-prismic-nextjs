@@ -103,7 +103,7 @@ export default function CartPage() {
                             updateQuantity(item.id, item.quantity - 1)
                           }
                           className={clsx(
-                            "cursor-pointer border border-neutral-700 px-2.5 py-1 text-lg text-white hover:bg-neutral-700 focus:ring-2 focus:ring-white focus:outline-none",
+                            "cursor-pointer border border-neutral-700 px-2.5 py-1 text-lg text-white hover:bg-neutral-700",
                             item.quantity <= 1 && "opacity-0",
                           )}
                           disabled={item.quantity <= 1}
@@ -121,7 +121,7 @@ export default function CartPage() {
                             handleQuantityChange(item.id, e.target.value)
                           }
                           aria-label={`Ilość dla ${item.name}`}
-                          className="w-16 border border-neutral-700 p-1 text-center text-lg font-bold focus:ring-2 focus:ring-white focus:outline-none"
+                          className="w-16 border border-neutral-700 p-1 text-center text-lg font-bold"
                         />
                         <button
                           type="button"
@@ -130,7 +130,7 @@ export default function CartPage() {
                             updateQuantity(item.id, item.quantity + 1)
                           }
                           className={clsx(
-                            "cursor-pointer border border-neutral-700 px-2.5 py-1 text-lg text-white hover:bg-neutral-700 focus:ring-2 focus:ring-white focus:outline-none",
+                            "cursor-pointer border border-neutral-700 px-2.5 py-1 text-lg text-white hover:bg-neutral-700",
                             item.quantity >= 99 && "opacity-0",
                           )}
                           disabled={item.quantity >= 99}
