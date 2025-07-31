@@ -5,6 +5,7 @@ import { isFilled } from "@prismicio/client";
 import { getLocales } from "@/utils/getLocales";
 import { reverseLocaleLookup } from "@/i18n";
 
+import { SearchProvider } from "@/context/SearchContext";
 import { TranslationsProvider } from "@/components/TranslationsProvider";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
@@ -70,9 +71,11 @@ export default async function LangLayout({
 
   return (
     <TranslationsProvider value={translations}>
-      <NavBar settings={settings} locales={locales} />
-      <main className="pt-14 md:pt-18">{children}</main>
-      <Footer />
+      <SearchProvider>
+        <NavBar settings={settings} locales={locales} />
+        <main className="pt-14 md:pt-18">{children}</main>
+        <Footer />
+      </SearchProvider>
     </TranslationsProvider>
   );
 }

@@ -17,8 +17,9 @@ import {
   LanguageSwitcher,
   type LanguageSwitcherProps,
 } from "@/components/LanguageSwitcher";
+import { useSearch } from "@/context/SearchContext";
+import { SearchModal } from "./SearchModal";
 import { useCart } from "@/context/CartContext";
-// Removed CartModal import
 
 type NavIconsProps = {
   className?: string;
@@ -27,20 +28,28 @@ type NavIconsProps = {
 };
 
 const NavIcons = ({ className = "", tabIndex, onLinkClick }: NavIconsProps) => {
-  const { totalItems } = useCart();
+  const { openSearch } = useSearch();
   const params = useParams();
   const lang = params.lang as string;
+
+  const handleSearchClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    openSearch();
+    if (onLinkClick) {
+      onLinkClick();
+    }
+  };
+
   return (
     <div className={clsx("flex items-center gap-8", className)}>
-      <a
-        href="#"
-        className="text-white"
+      <button
+        className="cursor-pointer text-white"
         aria-label="Search"
         tabIndex={tabIndex}
-        onClick={onLinkClick}
+        onClick={handleSearchClick}
       >
         <HiMagnifyingGlass size={24} />
-      </a>
+      </button>
       <a
         href="#"
         className="text-white"
@@ -58,13 +67,19 @@ const NavIcons = ({ className = "", tabIndex, onLinkClick }: NavIconsProps) => {
         onClick={onLinkClick}
       >
         <HiShoppingBag size={24} />
-        {totalItems > 0 && (
-          <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs font-bold text-black">
-            {totalItems}
-          </span>
-        )}
+        <CartItemCount />
       </TransitionLink>
     </div>
+  );
+};
+
+const CartItemCount = () => {
+  const { totalItems } = useCart();
+  if (totalItems === 0) return null;
+  return (
+    <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs font-bold text-black">
+      {totalItems}
+    </span>
   );
 };
 
@@ -167,7 +182,7 @@ export const NavBar = ({ settings, locales }: NavBarProps) => {
           </nav>
         </div>
       </header>
-      {/* CartModal removed, now cart is a page */}
+      <SearchModal />
     </>
   );
 };

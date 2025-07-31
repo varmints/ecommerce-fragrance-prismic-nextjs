@@ -1,5 +1,5 @@
-import * as prismic from '@prismicio/client';
-import { linkResolver } from '@/prismicio';
+import { Client } from "@prismicio/client";
+import { linkResolver } from "@/prismicio";
 
 /**
  * Pobiera listę dostępnych języków z repozytorium Prismic dla globalnego przełącznika.
@@ -9,12 +9,12 @@ import { linkResolver } from '@/prismicio';
  * @param currentPrismicLang - Aktualny język Prismic (np. "en-us"), aby oznaczyć go jako aktywny.
  * @returns Lista obiektów locale dla LanguageSwitcher.
  */
-export async function getLocales(client: prismic.Client, currentPrismicLang: string) {
+export async function getLocales(client: Client, currentPrismicLang: string) {
   const repository = await client.getRepository();
 
   const locales = repository.languages
-    .map(lang => {
-      const url = linkResolver({ lang: lang.id, type: 'homepage' });
+    .map((lang) => {
+      const url = linkResolver({ lang: lang.id, type: "homepage" });
 
       if (url) {
         return {
@@ -26,11 +26,14 @@ export async function getLocales(client: prismic.Client, currentPrismicLang: str
 
       return null;
     })
-    .filter((locale): locale is { lang: string; lang_name: string; url: string } =>
-      Boolean(locale)
+    .filter(
+      (locale): locale is { lang: string; lang_name: string; url: string } =>
+        Boolean(locale),
     );
 
-  const activeLangIndex = locales.findIndex(loc => loc.lang === currentPrismicLang);
+  const activeLangIndex = locales.findIndex(
+    (loc) => loc.lang === currentPrismicLang,
+  );
 
   if (activeLangIndex > -1) {
     const activeLang = locales.splice(activeLangIndex, 1)[0];

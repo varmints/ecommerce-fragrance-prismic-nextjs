@@ -1,12 +1,17 @@
-import * as prismic from '@prismicio/client';
-import { enableAutoPreviews } from '@prismicio/next';
-import sm from '../slicemachine.config.json';
-import { LOCALES } from './i18n';
+import {
+  ClientConfig,
+  PrismicDocument,
+  createClient as prismicCreateClient,
+} from "@prismicio/client";
+import { enableAutoPreviews } from "@prismicio/next";
+import sm from "../slicemachine.config.json";
+import { LOCALES } from "./i18n";
 
 /**
  * The project's Prismic repository name.
  */
-export const repositoryName = process.env.NEXT_PUBLIC_PRISMIC_ENVIRONMENT || sm.repositoryName;
+export const repositoryName =
+  process.env.NEXT_PUBLIC_PRISMIC_ENVIRONMENT || sm.repositoryName;
 
 /**
  * The project's link resolver. This function is used to resolve links to
@@ -15,17 +20,17 @@ export const repositoryName = process.env.NEXT_PUBLIC_PRISMIC_ENVIRONMENT || sm.
  * @see https://prismic.io/docs/route-resolver#link-resolver
  */
 export const linkResolver = (
-  doc: prismic.PrismicDocument | { type: string; lang: string; uid?: string }
+  doc: PrismicDocument | { type: string; lang: string; uid?: string },
 ): string | null => {
   // Use the `LOCALES` object to get the route prefix for the given language.
-  const locale = LOCALES[doc.lang as keyof typeof LOCALES] || LOCALES['en-us'];
+  const locale = LOCALES[doc.lang as keyof typeof LOCALES] || LOCALES["en-us"];
 
   switch (doc.type) {
-    case 'homepage':
+    case "homepage":
       return `/${locale}`;
-    case 'fragrance':
+    case "fragrance":
       return `/${locale}/fragrance/${doc.uid}`;
-    case 'quiz':
+    case "quiz":
       return `/${locale}/quiz`;
     default:
       return null;
@@ -38,11 +43,11 @@ export const linkResolver = (
  *
  * @param config - Configuration for the Prismic client.
  */
-export const createClient = (config: prismic.ClientConfig = {}) => {
-  const client = prismic.createClient(repositoryName, {
+export const createClient = (config: ClientConfig = {}) => {
+  const client = prismicCreateClient(repositoryName, {
     fetchOptions:
-      process.env.NODE_ENV === 'production'
-        ? { next: { tags: ['prismic'] }, cache: 'force-cache' }
+      process.env.NODE_ENV === "production"
+        ? { next: { tags: ["prismic"] }, cache: "force-cache" }
         : { next: { revalidate: 5 } },
     ...config,
   });
