@@ -797,6 +797,39 @@ interface TranslationsDocumentData {
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
   quiz_results_retake_button: prismic.KeyTextField;
+
+  /**
+   * Search Modal: Input Placeholder field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.search_modal_input_placeholder
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  search_modal_input_placeholder: prismic.KeyTextField;
+
+  /**
+   * Search Modal: Status Loading field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.search_modal_status_loading
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  search_modal_status_loading: prismic.KeyTextField;
+
+  /**
+   * Search Modal: No Results Found field in *Translations*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: translations.search_modal_no_results_found
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  search_modal_no_results_found: prismic.KeyTextField;
 }
 
 /**

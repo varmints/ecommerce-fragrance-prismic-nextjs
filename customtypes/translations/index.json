@@ -110,6 +110,27 @@
           "label": "Quiz: Results Retake Button",
           "placeholder": ""
         }
+      },
+      "search_modal_input_placeholder": {
+        "type": "Text",
+        "config": {
+          "label": "Search Modal: Input Placeholder",
+          "placeholder": ""
+        }
+      },
+      "search_modal_status_loading": {
+        "type": "Text",
+        "config": {
+          "label": "Search Modal: Status Loading",
+          "placeholder": ""
+        }
+      },
+      "search_modal_no_results_found": {
+        "type": "Text",
+        "config": {
+          "label": "Search Modal: No Results Found",
+          "placeholder": ""
+        }
       }
     }
   }

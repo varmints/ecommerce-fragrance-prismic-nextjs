@@ -9,11 +9,14 @@ import { PrismicNextImage } from "@prismicio/next";
 import { TransitionLink } from "./TransitionLink";
 import { asText, Content } from "@prismicio/client";
 import { formatPrice } from "@/utils/formatters";
+import { FadeIn } from "@/components/FadeIn";
+import { useTranslations } from "@/hooks/useTranslations";
 
 type SearchResult = Content.FragranceDocument;
 
 export const SearchModal = () => {
   const { isSearchOpen, closeSearch } = useSearch();
+  const translations = useTranslations();
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebounce(query, 300);
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -80,12 +83,15 @@ export const SearchModal = () => {
   }
 
   return (
-    <div
-      className="animate-in fade-in-0 fixed inset-0 z-50 bg-black/80 backdrop-blur-md"
-      role="dialog"
-      aria-modal="true"
+    <FadeIn
+      className="animate-in fixed inset-0 z-50 translate-y-8 bg-black/80 backdrop-blur-md"
+      vars={{ duration: 0.8 }}
     >
-      <div className="container mx-auto max-w-3xl p-4">
+      <div
+        role="dialog"
+        aria-modal="true"
+        className="container mx-auto max-w-3xl p-4"
+      >
         <div className="flex justify-end">
           <button
             onClick={closeSearch}
@@ -106,13 +112,18 @@ export const SearchModal = () => {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search for a fragrance..."
+              placeholder={
+                translations.search_modal_input_placeholder ||
+                "Search for a fragrance..."
+              }
               className="w-full border-b-2 border-white/50 bg-transparent py-4 pr-4 pl-14 text-2xl text-white placeholder:text-white/50 focus:border-white focus:outline-none"
             />
           </div>
           <div className="mt-8 h-[60vh] overflow-y-auto">
             {isLoading && (
-              <p className="text-center text-white/80">Loading...</p>
+              <p className="text-center text-white/80">
+                {translations.search_modal_status_loading || "Loading..."}
+              </p>
             )}
             {error && <p className="text-center text-red-500">{error}</p>}
             {!isLoading &&
@@ -120,7 +131,9 @@ export const SearchModal = () => {
               results.length === 0 &&
               debouncedQuery.length > 1 && (
                 <p className="text-center text-white/80">
-                  No results found for &quot;{debouncedQuery}&quot;
+                  {translations.search_modal_no_results_found ||
+                    "No results found for"}{" "}
+                  &quot;{debouncedQuery}&quot;
                 </p>
               )}
             <ul className="space-y-4">
@@ -131,12 +144,12 @@ export const SearchModal = () => {
                     className="flex items-center gap-4 rounded-lg p-4 transition-colors duration-200 hover:bg-white/10"
                     onClick={closeSearch}
                   >
-                    <div className="h-20 w-20 flex-shrink-0 rounded-md bg-white/10">
+                    <div className="h-26 w-26 flex-shrink-0 rounded-md bg-white/10 p-1">
                       <PrismicNextImage
                         field={result.data.bottle_image}
                         className="h-full w-full object-contain"
-                        width={80}
-                        height={80}
+                        width={100}
+                        height={100}
                         alt=""
                       />
                     </div>
@@ -155,6 +168,6 @@ export const SearchModal = () => {
           </div>
         </div>
       </div>
-    </div>
+    </FadeIn>
   );
 };
