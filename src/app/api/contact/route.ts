@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
 
     // 6. Send emails
     const { error: ownerEmailError } = await resend.emails.send({
-      from: "Contact Form <onboarding@resend.dev>",
+      from: `Contact Form <${process.env.RESEND_EMAIL_FROM}>`,
       to: [recipient_email],
       subject,
       replyTo: email,
@@ -142,7 +142,7 @@ export async function POST(req: NextRequest) {
     // Send confirmation email (non-blocking - if this fails, still return success)
     resend.emails
       .send({
-        from: "Cote Royale <onboarding@resend.dev>",
+        from: `Cote Royale <${process.env.RESEND_EMAIL_FROM}>`,
         to: [email],
         subject: confirmationSubject,
         react: await ConfirmationEmail({ name }),
