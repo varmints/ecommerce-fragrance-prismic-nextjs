@@ -1,0 +1,54 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"name_label": {
+				"__TYPE__": "FieldContent",
+				"value": "community",
+				"type": "Text"
+			},
+			"email_label": {
+				"__TYPE__": "FieldContent",
+				"value": "mass",
+				"type": "Text"
+			},
+			"message_label": {
+				"__TYPE__": "FieldContent",
+				"value": "frog",
+				"type": "Text"
+			},
+			"submit_button_text": {
+				"__TYPE__": "FieldContent",
+				"value": "lovely",
+				"type": "Text"
+			},
+			"loading_text": {
+				"__TYPE__": "FieldContent",
+				"value": "accept",
+				"type": "Text"
+			},
+			"success_message": {
+				"__TYPE__": "FieldContent",
+				"value": "distant",
+				"type": "Text"
+			},
+			"name_field_placeholder": {
+				"__TYPE__": "FieldContent",
+				"value": "country",
+				"type": "Text"
+			},
+			"email_field_placeholder": {
+				"__TYPE__": "FieldContent",
+				"value": "wolf",
+				"type": "Text"
+			},
+			"message_field_placeholder": {
+				"__TYPE__": "FieldContent",
+				"value": "negative",
+				"type": "Text"
+			}
+		},
+		"items": []
+	}
+]

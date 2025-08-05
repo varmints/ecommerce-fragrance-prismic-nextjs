@@ -1,0 +1,82 @@
+{
+  "id": "contact_form",
+  "type": "SharedSlice",
+  "name": "ContactForm",
+  "description": "ContactForm",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Contact Form",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "name_label": {
+          "type": "Text",
+          "config": {
+            "label": "Name Field Label",
+            "placeholder": ""
+          }
+        },
+        "name_field_placeholder": {
+          "type": "Text",
+          "config": {
+            "label": "Name Field Placeholder",
+            "placeholder": ""
+          }
+        },
+        "email_label": {
+          "type": "Text",
+          "config": {
+            "label": "Email Field Label",
+            "placeholder": ""
+          }
+        },
+        "email_field_placeholder": {
+          "type": "Text",
+          "config": {
+            "label": "Email Field Placeholder",
+            "placeholder": ""
+          }
+        },
+        "message_label": {
+          "type": "Text",
+          "config": {
+            "label": "Message Field Label",
+            "placeholder": ""
+          }
+        },
+        "message_field_placeholder": {
+          "type": "Text",
+          "config": {
+            "label": "Message Field Placeholder",
+            "placeholder": ""
+          }
+        },
+        "submit_button_text": {
+          "type": "Text",
+          "config": {
+            "label": "Submit Button Text",
+            "placeholder": ""
+          }
+        },
+        "loading_text": {
+          "type": "Text",
+          "config": {
+            "label": "Loading Text",
+            "placeholder": ""
+          }
+        },
+        "success_message": {
+          "type": "Text",
+          "config": {
+            "label": "Success Message",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

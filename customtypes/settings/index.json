@@ -38,6 +38,36 @@
           "allowText": true,
           "repeat": true
         }
+      },
+      "contact_form_settings": {
+        "type": "Group",
+        "config": {
+          "label": "Contact Form Settings",
+          "repeat": false,
+          "fields": {
+            "recipient_email": {
+              "type": "Text",
+              "config": {
+                "label": "Recipient Email",
+                "placeholder": ""
+              }
+            },
+            "email_subject_template": {
+              "type": "Text",
+              "config": {
+                "label": "Email Subject Template",
+                "placeholder": ""
+              }
+            },
+            "confirmation_email_subject": {
+              "type": "Text",
+              "config": {
+                "label": "Confirmation Email Subject",
+                "placeholder": ""
+              }
+            }
+          }
+        }
       }
     }
   }

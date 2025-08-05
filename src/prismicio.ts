@@ -32,6 +32,8 @@ export const linkResolver = (
       return `/${locale}/fragrance/${doc.uid}`;
     case "quiz":
       return `/${locale}/quiz`;
+    case "contact_page":
+      return `/${locale}/contact`;
     default:
       return null;
   }
